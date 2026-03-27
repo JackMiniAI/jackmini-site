@@ -525,6 +525,28 @@ Signs you can expand further:
 - The agent is asking for approval on things you've already approved 20 times
 - You trust the judgment for this specific task type
 
+## The Self-Improvement Loop
+
+The most underrated part of running an AI agent is building a system that makes the agent better over time — automatically, without requiring you to coach it session by session.
+
+Here's what we run:
+
+**Nightly extraction (11pm):** A cron job runs every night that reviews the day's conversation logs, extracts durable facts — decisions made, things learned about Alex, project status changes, regressions discovered — and appends them to a dated memory file. Small talk and transient requests are skipped. The output is a permanent record that feeds into future sessions.
+
+**Morning briefing (8am):** A cron job runs every morning that checks FRICTION.md for open contradictions, scans recent memory files for anything needing follow-up, and summarizes pending approvals or unfinished tasks. Delivered directly to Telegram. Under 5 lines. Keeps the day from starting with blind spots.
+
+**FRICTION.md — the conflict log:** When new instructions contradict existing ones, the agent is supposed to:
+1. Immediately flag it: "⚠️ FRICTION DETECTED: [description]"
+2. Log it to FRICTION.md with date and both conflicting instructions
+3. State which instruction it's following and why (safer/more conservative)
+4. Proceed without passing the decision back to you
+
+The friction log matters because contradictions compound. Without it, the agent silently resolves conflicts in whatever direction feels right in the moment — and you never know. With it, you have a record of every contradiction and how it was handled.
+
+Together, these three systems mean the agent is actively getting more useful every day. The nightly extraction builds memory. The morning briefing surfaces gaps. The friction log prevents silent drift.
+
+This is the difference between an agent that degrades over time (lost context, accumulated bad defaults, unresolved contradictions) and one that compounds.
+
 ## When to Override
 
 Override liberally. The agent should not take your override as criticism. You're not correcting a person — you're updating a system.
