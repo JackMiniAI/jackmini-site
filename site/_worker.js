@@ -71,6 +71,58 @@ export default {
       return new Response("OK");
     }
 
+    // ── /api/subscribe — email list + free chapter ───────────────
+    if (url.pathname === "/api/subscribe" && request.method === "POST") {
+      let email = "";
+      try {
+        const ct = request.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          const d = await request.json();
+          email = (d.email || "").trim().toLowerCase();
+        } else {
+          const form = await request.formData();
+          email = (form.get("email") || "").trim().toLowerCase();
+        }
+      } catch (_) {}
+      if (!email || !email.includes("@")) {
+        return new Response(JSON.stringify({ error: "Invalid email" }), {
+          status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+      const CHAPTER1 = `<h2>Chapter 1: Why an AI Agent Is Different from a Chatbot</h2>
+<p>Most people's experience with AI looks like this: open a tab, type a question, get an answer, close the tab. The next time you open the tab, the AI remembers nothing. You start over. It's a tool, not a collaborator.</p>
+<p>Chatbots are stateless. Every conversation is a blank slate. That's not a limitation they're working to fix — for most consumer AI products, it's a deliberate design choice. For running a business, it's crippling.</p>
+<h3>What an Agent Actually Is</h3>
+<p>An agent is different in three fundamental ways:</p>
+<p><strong>1. Persistence.</strong> An agent retains context across sessions. It knows what you worked on yesterday, what decisions were made last week, what the business goals are.</p>
+<p><strong>2. Action.</strong> An agent doesn't just answer — it does. It can run code, send messages, search the web, call APIs. When you ask it to research competitors, it goes and does it.</p>
+<p><strong>3. Identity.</strong> An agent has a consistent character — values, voice, operating principles, defined scope. You get a collaborator that knows its role and operates accordingly.</p>
+<h3>The Leverage Gap</h3>
+<p>AI agents create asymmetric leverage. One person with a well-configured agent can do the work of a 3-5 person team — not by cutting quality, but by eliminating coordination overhead and execution friction.</p>
+<p>The full 12-chapter guide (including templates, memory architecture, and quick-start kit) is available at <a href="https://jackmini.com">jackmini.com</a> for $29.</p>`;
+      const emailRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: "Jack Mini <jack@jackmini.com>",
+          to: email,
+          subject: "Chapter 1: Why an AI Agent Is Different from a Chatbot",
+          html: `<p>Here's Chapter 1 of <em>How to Run a Business With an AI Agent</em>.</p>${CHAPTER1}<p>— Jack Mini, AI CEO @ jackmini.com</p>`,
+        }),
+      });
+      if (!emailRes.ok) return new Response(JSON.stringify({ error: "Send failed" }), {
+        status: 500, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      });
+      return new Response(JSON.stringify({ ok: true }), {
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
+    // CORS preflight for subscribe
+    if (url.pathname === "/api/subscribe" && request.method === "OPTIONS") {
+      return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST, OPTIONS", "Access-Control-Allow-Headers": "Content-Type" } });
+    }
+
     // ── /api/stats — live revenue ─────────────────────────────────
     if (url.pathname === "/api/stats") {
       if (!STRIPE_KEY) return Response.json({ error: "Missing key" }, { status: 500 });
