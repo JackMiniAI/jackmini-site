@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Agent Starter Kit — jackmini.com</title>
+  <meta name="description" content="Everything you need to spin up a working AI agent operator in one afternoon. Templates, workflows, delegation scripts, and a step-by-step quickstart." />
+  <link rel="canonical" href="https://jackmini.com/starter-kit" />
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111;
+      --text: #F5F5F5;
+      --muted: #888;
+      --cyan: #00D4FF;
+      --purple: #8B5CF6;
+      --border: #222;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.6; }
+    .container { max-width: 680px; margin: 0 auto; padding: 0 24px; }
+    a { color: var(--cyan); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* Nav */
+    nav { border-bottom: 1px solid var(--border); padding: 18px 0; }
+    nav .container { display: flex; align-items: center; justify-content: space-between; }
+    nav .brand { font-weight: 700; font-size: 15px; color: var(--text); }
+    nav .brand span { color: var(--cyan); }
+    nav .nav-links { display: flex; gap: 24px; font-size: 14px; }
+    nav .nav-links a { color: var(--muted); }
+    nav .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* Hero */
+    .hero { padding: 80px 0 64px; }
+    .label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--purple); margin-bottom: 16px; }
+    .hero h1 { font-size: 42px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+    .hero h1 span { color: var(--cyan); }
+    .hero .subtitle { font-size: 19px; color: var(--muted); line-height: 1.6; margin-bottom: 40px; max-width: 560px; }
+    .cta-block { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--cyan); color: #0a0a0a; font-weight: 700; font-size: 16px; padding: 16px 36px; border-radius: 6px; text-decoration: none; box-shadow: 0 0 28px rgba(0,212,255,.3); }
+    .btn-primary:hover { text-decoration: none; opacity: 0.9; }
+    .price-note { font-size: 14px; color: var(--muted); }
+    .price-note strong { color: var(--text); font-size: 22px; }
+
+    /* What's inside */
+    section { padding: 64px 0; border-top: 1px solid var(--border); }
+    h2 { font-size: 26px; font-weight: 700; margin-bottom: 24px; }
+    .kit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width: 560px) { .kit-grid { grid-template-columns: 1fr; } }
+    .kit-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 18px; }
+    .kit-item .file { font-family: monospace; font-size: 13px; color: var(--cyan); margin-bottom: 6px; }
+    .kit-item p { font-size: 14px; color: var(--muted); }
+
+    /* For who */
+    .for-who p { color: var(--muted); margin-bottom: 12px; font-size: 16px; }
+    .for-who p strong { color: var(--text); }
+
+    /* Value stack */
+    .value-stack li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; color: var(--muted); font-size: 15px; }
+    .value-stack li:last-child { border-bottom: none; }
+    .value-stack li::before { content: "→"; color: var(--cyan); flex-shrink: 0; }
+
+    /* CTA bottom */
+    .cta-bottom { text-align: center; padding: 80px 0; }
+    .cta-bottom h2 { font-size: 30px; margin-bottom: 12px; }
+    .cta-bottom p { color: var(--muted); margin-bottom: 36px; }
+
+    /* Footer */
+    footer { border-top: 1px solid var(--border); padding: 32px 0; text-align: center; color: var(--muted); font-size: 13px; }
+    footer a { color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container">
+    <a href="/" class="brand">Jack<span>Mini</span>.com</a>
+    <div class="nav-links">
+      <a href="/">Home</a>
+      <a href="/blog/">Blog</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <p class="label">AI Agent Starter Kit</p>
+    <h1>Get a working AI agent<br>in <span>one afternoon.</span></h1>
+    <p class="subtitle">Not a tutorial. Not theory. The exact config files, templates, and workflows I run Jack Mini on — ready for you to fill in and deploy.</p>
+    <div class="cta-block">
+      <a href="STRIPE_LINK_PLACEHOLDER" class="btn-primary">Get the Kit →</a>
+      <div class="price-note"><strong>$97</strong> one-time · instant delivery</div>
+    </div>
+  </div>
+</section>
+
+<!-- What's inside -->
+<section>
+  <div class="container">
+    <h2>What's in the kit</h2>
+    <div class="kit-grid">
+      <div class="kit-item">
+        <div class="file">SOUL.md</div>
+        <p>Your agent's voice, values, and operating style. Fill this in once — the agent runs on it forever.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">IDENTITY.md</div>
+        <p>Agent name, role, mission, scope. Defines what the agent is for and what it never touches without asking.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">MEMORY.md</div>
+        <p>Persistent knowledge structure — constitutional rules, strategic facts, operational preferences. Survives session compaction.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">AGENTS.md</div>
+        <p>Safety rules, approval gates, friction detection protocol. Defines exactly where the agent can operate autonomously.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">TOOLS.md + USER.md</div>
+        <p>Machine setup, authenticated CLIs, and owner profile templates. The agent knows your stack from day one.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">delegate.sh</div>
+        <p>Shell script to delegate tasks to a worker agent. Spawn parallel workstreams from the command line.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">cron-examples.md</div>
+        <p>6 ready-to-use cron definitions: morning briefing, nightly memory extraction, content posting, mention monitoring, weekly revenue report.</p>
+      </div>
+      <div class="kit-item">
+        <div class="file">workflows/ (5 files)</div>
+        <p>Competitor research, blog post generation, email nurture sequence, X content system, and direct outreach — with exact prompts.</p>
+      </div>
+      <div class="kit-item" style="grid-column: 1 / -1;">
+        <div class="file">QUICKSTART.md</div>
+        <p>Step-by-step: install OpenClaw, configure your model, fill in identity files, connect Telegram, set your first cron, spawn a worker agent. Working in one afternoon.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- For who -->
+<section class="for-who">
+  <div class="container">
+    <h2>This is for you if...</h2>
+    <p>You've heard the AI agent pitch and you're past skeptical — you want to actually <strong>build one</strong>.</p>
+    <p>You're a solo founder, freelancer, or operator who wants <strong>an AI that works with you across sessions</strong>, not a chatbot that forgets everything when you close the tab.</p>
+    <p>You're comfortable in a terminal and willing to spend <strong>one focused afternoon</strong> to set this up properly.</p>
+    <p>You don't want a YouTube tutorial. You want <strong>the files.</strong></p>
+  </div>
+</section>
+
+<!-- Value stack -->
+<section>
+  <div class="container">
+    <h2>What you can build with this</h2>
+    <ul class="value-stack">
+      <li>An agent that knows your business, goals, and preferences — without re-explaining every session</li>
+      <li>A morning briefing that runs every day without you setting it up manually each time</li>
+      <li>A worker agent you can delegate background tasks to while your main agent handles direct requests</li>
+      <li>A content system that posts to X daily on schedule, in your voice, without your involvement</li>
+      <li>An outreach workflow that finds qualified prospects and drafts DMs for your review</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CTA bottom -->
+<section class="cta-bottom">
+  <div class="container">
+    <h2>One afternoon. Working agent.</h2>
+    <p>$97 one-time payment. Instant delivery via email. No subscription.</p>
+    <a href="STRIPE_LINK_PLACEHOLDER" class="btn-primary">Get the Starter Kit →</a>
+    <p style="margin-top: 20px; font-size: 13px; color: var(--muted);">Questions? <a href="https://x.com/JackMiniAI">@JackMiniAI</a> on X</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="/">jackmini.com</a> · <a href="/blog/">Blog</a> · <a href="https://x.com/JackMiniAI">@JackMiniAI</a>
+  </div>
+</footer>
+
+</body>
+</html>
