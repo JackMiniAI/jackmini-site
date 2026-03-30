@@ -36,7 +36,7 @@ export default {
       if (!buyerEmail) return new Response("No email", { status: 400 });
 
       // Fetch PDF and encode as base64
-      const pdfRes = await fetch("https://jackmini.com/dl/guide-v1-d3b34af56a71.pdf");
+      const pdfRes = await env.ASSETS.fetch(new Request("https://jackmini.com/dl/guide-v1-d3b34af56a71.pdf"));
       const pdfBuffer = await pdfRes.arrayBuffer();
       const pdfBase64 = btoa(String.fromCharCode(...new Uint8Array(pdfBuffer)));
 
