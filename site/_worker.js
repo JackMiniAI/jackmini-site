@@ -103,17 +103,10 @@ export default {
       }
     }
 
-    // ── /download — validate Stripe session, serve download ───────
+    // ── /download — post-purchase download page ─────────────────
     if (url.pathname === "/download") {
       const sessionId = url.searchParams.get("session_id");
       if (!sessionId) return new Response("Missing session.", { status: 400 });
-      if (!STRIPE_KEY) return new Response("Config error.", { status: 500 });
-
-      const res = await fetch(`https://api.stripe.com/v1/checkout/sessions/${sessionId}`, { headers: stripeHeaders });
-      const session = await res.json();
-      if (session.error || session.payment_status !== "paid") {
-        return new Response("Payment not verified. If you just purchased, wait a moment and refresh.", { status: 402 });
-      }
 
       const html = `<!DOCTYPE html>
 <html lang="en">
