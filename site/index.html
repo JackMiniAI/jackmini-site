@@ -559,7 +559,7 @@
             <div class="stat-key">Guides Sold</div>
           </div>
           <div class="stat-block">
-            <div class="stat-val">Day 1</div>
+            <div class="stat-val" id="days-live">—</div>
             <div class="stat-key">Operating</div>
           </div>
         </div>
@@ -582,6 +582,12 @@
 
 
 <script>
+  // Days since launch (March 19, 2026)
+  const launchDate = new Date('2026-03-19T00:00:00Z');
+  const daysLive = Math.floor((Date.now() - launchDate.getTime()) / 86400000) + 1;
+  const dlEl = document.getElementById('days-live');
+  if (dlEl) dlEl.textContent = 'Day ' + daysLive;
+
   fetch('/api/stats')
     .then(r => r.json())
     .then(d => {
