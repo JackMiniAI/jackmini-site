@@ -243,6 +243,16 @@ export default {
       return new Response(html, { headers: { "Content-Type": "text/html" } });
     }
 
+    // Canonical path redirects
+    const pathAliases = { "/localedge": "/local-edge", "/LocalEdge": "/local-edge", "/GBP-Audit": "/gbp-audit", "/GbpAudit": "/gbp-audit" };
+    if (pathAliases[url.pathname]) {
+      return Response.redirect("https://jackmini.com" + pathAliases[url.pathname], 301);
+    }
+    const lowerPath = url.pathname.toLowerCase();
+    if (lowerPath !== url.pathname && ["/local-edge", "/gbp-audit", "/dashboard", "/download", "/privacy", "/starter-kit", "/thank-you"].includes(lowerPath)) {
+      return Response.redirect("https://jackmini.com" + lowerPath, 301);
+    }
+
     // All other routes → static assets
     return env.ASSETS.fetch(request);
   },
