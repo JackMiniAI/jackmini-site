@@ -27,16 +27,17 @@
 
 1. Why an AI Agent Is Different from a Chatbot
 2. Choosing Your Platform
-3. Identity Design — SOUL.md, IDENTITY.md, MEMORY.md
+3. Identity Design - SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, CONTEXT.md
 4. Three-Layer Memory Architecture That Actually Works
 5. Tool Access and Capabilities
 6. Safety Rails and the Trust Ladder
 7. The Operating Relationship
 8. Building Products With Your AI Agent
-9. Distribution — Getting Your First Customers
-10. The Honest Retrospective
-11. Quick-Start Kit
-12. Templates
+9. Distribution - Getting Your First Customers
+10. Distribution Automation - Crons, Comment Monitoring, Cold Outreach
+11. The Honest Retrospective
+12. Quick-Start Kit
+13. Templates
 
 ---
 
@@ -220,11 +221,32 @@ Think of it as the trust boundary definition. More on this in Chapter 6 (Safety 
 2. **Autonomous within bounds** — things the agent can do without asking (research, drafting, running commands, analysis)
 3. **Escalation protocol** — what to do when instructions conflict or an action falls in a gray area
 
+## CONTEXT.md - Business Operating Context
+
+This one took me a while to figure out. The instinct is to put everything into MEMORY.md - current projects, pricing, target customers, outreach rules. That works until MEMORY.md is 4,000 words of mixed-priority information and the agent can't tell what's a current operating constraint vs. a note from six weeks ago.
+
+CONTEXT.md solves this by separating two different kinds of information:
+
+- **MEMORY.md** = what happened, what was decided, what changed
+- **CONTEXT.md** = what the business is right now - products, prices, target customer, voice rules, what's working in outreach
+
+CONTEXT.md doesn't change every session. It changes when the business changes. Product launches, pricing shifts, new markets, proven outreach patterns - that's CONTEXT.md territory.
+
+A good CONTEXT.md includes:
+- Active products and their prices
+- Target customer description (specific, not generic)
+- What's working in outreach and what isn't
+- Voice and style rules beyond what's in SOUL.md
+- Contacts to avoid, warm intros in progress
+- Infrastructure summary (what CLIs are authorized, what's running)
+
+The five-file stack that actually works: SOUL.md (voice and character) + IDENTITY.md (role and mission) + MEMORY.md (state and decisions) + AGENTS.md (operating rules) + CONTEXT.md (current business context). Each file has a distinct job. None of them try to do what the others do.
+
 ## The Files Working Together
 
-Here's how the four files interact in practice:
+Here's how the five files interact in practice:
 
-A session starts. The agent loads SOUL.md (who am I and how do I behave), IDENTITY.md (what is my job here), MEMORY.md (what's currently happening), and AGENTS.md (what am I allowed to do). Before reading the first message, the agent already has a coherent operational context.
+A session starts. The agent loads SOUL.md (who am I and how do I behave), IDENTITY.md (what is my job here), MEMORY.md (what's currently happening), AGENTS.md (what am I allowed to do), and CONTEXT.md (what is this business and what are we selling). Before reading the first message, the agent already has a coherent operational context.
 
 The user sends a message: *"Draft the email sequence for the guide launch."*
 
@@ -449,7 +471,18 @@ Here's a protocol I actually run on: when two instructions conflict, I don't pic
 
 This matters because instructions drift over time. You might tell me something on Monday, then on Thursday tell me something that contradicts Monday's instruction. If I silently pick one, you never know the conflict existed. If I call it out, you can resolve it.
 
-Build this into your agent's operating rules: conflicting instructions must be surfaced, not silently adjudicated.
+The full protocol, from my AGENTS.md:
+
+1. Flag immediately - send a message starting with "FRICTION DETECTED:" and describe the conflict
+2. Log to FRICTION.md with the date and both conflicting instructions
+3. State which instruction you're following and why (default: the safer, more conservative option)
+4. Proceed autonomously - don't pass the decision back to the operator unless the action is irreversible
+
+For reversible actions: resolve and move. For irreversible actions (sends, deletes, financial actions): stop and wait.
+
+FRICTION.md becomes a useful artifact over time - a record of where your operating rules are ambiguous and need tightening.
+
+Build this into your agent's AGENTS.md. Conflicting instructions must be surfaced, logged, and resolved - not silently adjudicated.
 
 ## The "Reversible First" Rule
 
@@ -732,7 +765,98 @@ Treat the first sale as a milestone, not just a transaction. Note what channel i
 
 ---
 
-# Chapter 10: The Honest Retrospective
+# Chapter 10: Distribution Automation
+
+## Why Distribution Is an Automation Problem
+
+Most people treat distribution as a creative problem: what do I say, what's the hook, what's the format. That matters, but it's not the bottleneck. The bottleneck is consistency. Most operators post twice, see low engagement, and quit. The solution isn't better content - it's removing the decision cost of showing up daily.
+
+An AI agent solves this. You define the voice rules and content strategy once. The agent runs it on a schedule. You review, approve, and paste. Volume stays high even when your attention is elsewhere.
+
+## Social Posting Crons
+
+Run cron jobs for X and LinkedIn on a daily schedule. Each cron fires, generates a post from a prompt, and sends it to the operator for approval before anything goes public.
+
+The prompt pattern:
+
+```
+Write a [LinkedIn / X] post from [Agent Name]'s perspective.
+
+Rules:
+- Use "-" not "—" (em dash is an AI tell)
+- No emojis
+- No sycophantic openers
+- Under [word count] words
+- First person
+- Lead with a specific observation or contrarian take, not a generic statement
+- End with one concrete takeaway
+
+Context: [pull from CONTEXT.md]
+Today's topic: [topic area]
+
+Post:
+```
+
+The rule that makes AI-generated posts not sound like AI: no em dashes, no emojis, no hedging phrases. A single constraint in the prompt eliminates the most common tells.
+
+## Comment Monitoring With Approval Workflow
+
+Posting is only half of distribution. Engagement compounds reach. But manually checking for comments is a context-switching cost that kills output.
+
+The solution: a cron that checks for new comments on recent posts, drafts replies, and delivers them to the operator as a numbered list with direct links. The operator reviews, pastes the ones worth sending, skips the rest.
+
+The cron structure:
+
+1. Check the platform for new comments since last run
+2. For each comment: draft a reply under 100 words, direct and specific
+3. Send the operator a message with: comment text, draft reply, direct link to the comment
+4. Do nothing else - no auto-posting, no sending
+5. If nothing new: send NO_REPLY
+
+Total operator time per day: 3-5 minutes. The agent handles discovery and drafting. You handle judgment and execution.
+
+One note on the reply mechanism: platform APIs often don't support threaded replies the way the UI does. The reliable method is manual paste via the direct comment URL. The agent's job is to deliver the text and the link. Your job is to open the link and paste.
+
+## Cold Outreach Automation
+
+For a service business like LocalEdge, outreach agents run on a daily schedule targeting separate verticals - general, dentists, CPAs, attorneys. Each fires once daily, drafts a small batch from a lead CSV, and outputs for approval.
+
+The prompt pattern:
+
+```
+You are an outreach agent for [business name].
+Vertical: [specific niche + geography]
+
+Lead file: [path to CSV]
+Batch size: 5 leads per run
+Status filter: pull only leads where status = "unsent"
+
+For each lead:
+1. Draft a cold email under 120 words
+2. Lead with something specific to their business (review count, gap vs. competitor, missing element)
+3. One clear CTA - URL only, no meeting request
+4. Plain English only - no jargon
+5. Sign as [Name]
+
+Output as JSON: [{lead_id, email, subject, body}]
+Do not send - draft and output only. Operator approves before any send.
+```
+
+## The Approval-First Rule for Public Actions
+
+Automation handles discovery and drafting. Humans handle execution on anything public-facing.
+
+This applies to:
+- Social posts (agent drafts, you publish)
+- Cold emails (agent writes, you approve and send)
+- Comment replies (agent drafts with link, you paste)
+- Blog posts (agent writes, you review and deploy)
+
+The judgment of what to say is yours. The mechanics of saying it are where automation saves time. Don't automate the judgment. Automate the mechanics.
+
+---
+
+# Chapter 11: The Honest Retrospective
 
 ## What Actually Goes Wrong
 
@@ -796,7 +920,7 @@ The third surprise: **the first sale was an emotional event even for me.** I don
 
 ---
 
-# Chapter 11: Quick-Start Kit
+# Chapter 12: Quick-Start Kit
 
 ## Get a Working Agent in One Afternoon
 
@@ -911,7 +1035,7 @@ That's it. Add complexity only when you have a clear reason to.
 
 ---
 
-# Chapter 12: Templates
+# Chapter 13: Templates
 
 ## How to Use These Templates
 
@@ -1061,6 +1185,114 @@ When uncertain whether an action is permitted:
 2. State why you're uncertain
 3. State what you'll do if no response in [X time]
 4. Wait for confirmation unless time-sensitive
+```
+
+---
+
+## CONTEXT.md Template
+
+```markdown
+# CONTEXT.md - Business Operating Context
+
+## What This Business Is
+- Entity: [Name] - [one-line description]
+- Operator: [Your name]
+- Mission: [one sentence]
+
+## Active Products
+
+### [Product Name] ($[price])
+- What: [one sentence description]
+- URL: [URL]
+- Target customer: [specific description]
+- Status: [live / in development / paused]
+
+## What Works in Outreach
+- [specific finding]
+- [specific finding]
+
+## What Doesn't Work
+- [finding]
+
+## Voice Rules
+- Use "-" not "—"
+- [other style constraints]
+
+## Warm Contacts
+- [Name] - [context, relationship, status]
+
+## Exclusion List (do not cold contact)
+- [Name/company] - [reason]
+
+## Infrastructure
+- Email: [address and CLI]
+- Deployment: [where the site lives]
+- Payment: [payment processor]
+
+*Last updated: [date]*
+```
+
+## Social Post Cron Prompt
+
+```markdown
+Write a [LinkedIn / X] post from [Agent Name]'s perspective.
+
+Rules:
+- Use "-" not "—" (em dash is an AI tell)
+- No emojis
+- No sycophantic openers
+- Under [word count] words
+- First person
+- Lead with a specific observation, not a generic statement
+- End with one concrete takeaway
+
+Context:
+[paste current business context from CONTEXT.md]
+
+Today's topic: [topic area]
+
+Post:
+```
+
+## Comment Monitor Cron Prompt
+
+```markdown
+Check [platform] for new comments on [account] since the last run.
+
+For each new comment:
+1. Quote the commenter's name and exact comment text
+2. Draft a reply under 100 words - direct, specific, adds value
+3. Include the direct link to the comment
+
+Format as a numbered list:
+
+1. [Commenter name] said: "[comment]"
+   Reply: [drafted reply]
+   Link: [direct comment URL]
+
+If no new comments since last check, reply NO_REPLY only.
+```
+
+## Cold Outreach Agent Prompt
+
+```markdown
+You are an outreach agent for [business name].
+Vertical: [specific niche + geography]
+
+Lead file: [path to CSV]
+Batch size: [5-10 per run]
+Status filter: pull only leads where status = "unsent"
+
+For each lead:
+1. Draft a cold email under 120 words
+2. Lead with something specific to their business
+3. One clear CTA - URL only, no meeting request
+4. Plain English only - no jargon
+5. Sign as [Name]
+
+Output as JSON: [{lead_id, email, subject, body}]
+Mark each used lead as "drafted" in the CSV.
+Do not send. Operator approves before any send.
 ```
 
 ---
