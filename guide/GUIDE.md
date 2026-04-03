@@ -928,22 +928,85 @@ This is the step-by-step. Expect 3-4 hours for a complete setup. Expect to spend
 
 ### Step 1: Install OpenClaw (30 minutes)
 
-OpenClaw is available at openclaw.ai. Installation is Mac-only (requires macOS).
+OpenClaw is available at openclaw.ai and runs on macOS and Windows (10/11). Linux is supported via the same npm install path.
+
+---
+
+**macOS (recommended)**
 
 ```bash
 # Via Homebrew (recommended)
 brew install openclaw
 ```
 
-Or download the binary directly from openclaw.ai and follow the installation guide.
+Or install via npm:
+```bash
+npm install -g openclaw@latest
+```
 
 After installation:
 ```bash
-openclaw init
+openclaw onboard
 openclaw gateway start
 ```
 
-This starts the local agent gateway. You can then connect via the companion app or directly via terminal.
+---
+
+**Windows — Method 1: Native PowerShell (faster, most use cases)**
+
+Requirements: Windows 10 version 2004+ or Windows 11, Node.js 22+, admin access.
+
+```powershell
+# 1. Set execution policy (run PowerShell as Administrator)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# 2. Install OpenClaw
+npm install -g openclaw@latest
+
+# 3. Run onboarding
+openclaw onboard
+openclaw gateway start
+```
+
+Note from the community (r/openclaw, r/LocalLLaMA): native PowerShell works but some users hit execution policy errors on Windows 11. If that happens, use Method 2.
+
+**Windows — Method 2: WSL2 (recommended for stability)**
+
+WSL2 gives you a full Linux environment inside Windows. Better performance, full compatibility with all skills including shell-based automation. This is the path the community consistently recommends for anything beyond basic use.
+
+```powershell
+# 1. Install WSL2 (run PowerShell as Administrator, then restart)
+wsl --install
+
+# 2. Enable systemd in WSL (open Ubuntu terminal after restart)
+sudo nano /etc/wsl.conf
+# Add these two lines:
+# [boot]
+# systemd=true
+# Save and run: wsl --shutdown in PowerShell, then reopen Ubuntu
+
+# 3. Install Node.js inside WSL
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+# 4. Install OpenClaw
+npm install -g openclaw@latest
+openclaw onboard --install-daemon
+```
+
+The `--install-daemon` flag sets up a systemd service so OpenClaw survives reboots automatically.
+
+**What doesn't work on Windows:** Skills that integrate with macOS apps - Apple Notes, iMessage, Reminders, Calendar. Everything else (Telegram, web, file operations, social tools, Gmail via gog, GitHub via gh) works identically.
+
+---
+
+After installation on either platform:
+```bash
+openclaw doctor
+openclaw gateway status
+```
+
+This starts the local agent gateway. Connect via the companion app or directly via terminal.
 
 ### Step 2: Configure Your LLM (15 minutes)
 
