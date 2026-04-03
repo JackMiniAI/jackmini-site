@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get the Free AI Agent Guide - Jack Mini</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', serif;
+    background: #0a0a0a;
+    color: #f0f0f0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .container {
+    max-width: 540px;
+    width: 100%;
+  }
+  .badge {
+    display: inline-block;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #999;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    padding: 4px 10px;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  h1 {
+    font-size: 28px;
+    font-weight: normal;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    color: #f0f0f0;
+  }
+  .sub {
+    color: #888;
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 36px;
+    font-family: -apple-system, sans-serif;
+  }
+  .form-group {
+    margin-bottom: 20px;
+  }
+  label {
+    display: block;
+    font-family: -apple-system, sans-serif;
+    font-size: 13px;
+    color: #999;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  input, textarea, select {
+    width: 100%;
+    background: #111;
+    border: 1px solid #333;
+    color: #f0f0f0;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: -apple-system, sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color: #666;
+  }
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.5;
+  }
+  select option { background: #111; }
+  button {
+    width: 100%;
+    background: #f0f0f0;
+    color: #0a0a0a;
+    border: none;
+    padding: 16px;
+    font-size: 15px;
+    font-family: -apple-system, sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 8px;
+  }
+  button:hover { background: #d0d0d0; }
+  button:disabled { background: #444; color: #777; cursor: not-allowed; }
+  .note {
+    font-family: -apple-system, sans-serif;
+    font-size: 12px;
+    color: #555;
+    margin-top: 16px;
+    text-align: center;
+  }
+  .success {
+    background: #111;
+    border: 1px solid #333;
+    padding: 32px;
+    text-align: center;
+    display: none;
+  }
+  .success h2 { font-size: 22px; font-weight: normal; margin-bottom: 12px; }
+  .success p { color: #888; font-family: -apple-system, sans-serif; font-size: 15px; line-height: 1.6; }
+  .error-msg {
+    color: #e55;
+    font-family: -apple-system, sans-serif;
+    font-size: 13px;
+    margin-top: 8px;
+    display: none;
+  }
+  .spots {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 32px;
+  }
+  .spots span { color: #aaa; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="badge">FREE - LIMITED TO 10</div>
+  <h1>Get the AI Agent Operator's Guide</h1>
+  <p class="sub">The same guide that's been selling at $29. No coupon, no catch - fill this out and I'll send it directly. I want to talk to people actually building with AI agents, not just reading about them.</p>
+  <div class="spots">Spots remaining: <span id="spots-count">loading...</span></div>
+
+  <form id="giveaway-form">
+    <div class="form-group">
+      <label>Your name</label>
+      <input type="text" id="name" name="name" placeholder="First name is fine" required>
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="email" name="email" placeholder="Where to send the guide" required>
+    </div>
+    <div class="form-group">
+      <label>What are you trying to automate or build?</label>
+      <textarea id="reason" name="reason" placeholder="One or two sentences is enough" required></textarea>
+    </div>
+    <div class="form-group">
+      <label>Would you like a 15-min call to talk through your setup?</label>
+      <select id="call" name="call" required>
+        <option value="">Select one</option>
+        <option value="yes">Yes - happy to chat</option>
+        <option value="no">No thanks, just the guide</option>
+      </select>
+    </div>
+    <button type="submit" id="submit-btn">Send Me the Guide</button>
+    <div class="error-msg" id="error-msg">Something went wrong. Try again or email jack@jackmini.com directly.</div>
+    <p class="note">No spam. One email with the guide, that's it. If you said yes to the call, I'll follow up separately.</p>
+  </form>
+
+  <div class="success" id="success-msg">
+    <h2>You're in.</h2>
+    <p>Check your inbox - the guide is on its way.<br><br>If you said yes to the call, expect a note from me in the next day or two.</p>
+  </div>
+</div>
+
+<script>
+// Fetch remaining spots
+fetch('/api/giveaway-spots')
+  .then(r => r.json())
+  .then(d => {
+    const el = document.getElementById('spots-count');
+    if (d.remaining <= 0) {
+      el.textContent = 'none - giveaway closed';
+      el.style.color = '#e55';
+      document.getElementById('submit-btn').disabled = true;
+    } else {
+      el.textContent = d.remaining + ' of 10';
+    }
+  })
+  .catch(() => { document.getElementById('spots-count').textContent = '10 of 10'; });
+
+document.getElementById('giveaway-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+  document.getElementById('error-msg').style.display = 'none';
+
+  const data = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    reason: document.getElementById('reason').value.trim(),
+    call: document.getElementById('call').value,
+  };
+
+  try {
+    const res = await fetch('/api/guide-request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) {
+      document.getElementById('giveaway-form').style.display = 'none';
+      document.getElementById('success-msg').style.display = 'block';
+    } else {
+      const body = await res.json().catch(() => ({}));
+      if (body.closed) {
+        btn.textContent = 'Giveaway closed';
+        document.getElementById('error-msg').textContent = 'All 10 spots are taken. Follow @jackmini.com for the next one.';
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Me the Guide';
+      }
+    }
+  } catch (err) {
+    document.getElementById('error-msg').style.display = 'block';
+    btn.disabled = false;
+    btn.textContent = 'Send Me the Guide';
+  }
+});
+</script>
+</body>
+</html>

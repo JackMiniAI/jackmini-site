@@ -243,6 +243,58 @@ export default {
       return new Response(html, { headers: { "Content-Type": "text/html" } });
     }
 
+    // ── /api/giveaway-spots — check remaining guide giveaway spots ───
+    if (url.pathname === "/api/giveaway-spots") {
+      const kv = env.GUIDE_GIVEAWAY;
+      let count = 0;
+      if (kv) {
+        const val = await kv.get("count");
+        count = val ? parseInt(val) : 0;
+      }
+      return Response.json({ remaining: Math.max(0, 10 - count) }, {
+        headers: { "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
+    // ── /api/guide-request — guide giveaway form submission ──────────
+    if (url.pathname === "/api/guide-request" && request.method === "POST") {
+      if (!env.RESEND_API_KEY) return Response.json({ error: "Not configured" }, { status: 500 });
+      let data;
+      try { data = await request.json(); } catch { return Response.json({ error: "Bad JSON" }, { status: 400 }); }
+      const { name, email, reason, call } = data || {};
+      if (!name || !email || !reason || !call) return Response.json({ error: "Missing fields" }, { status: 400 });
+
+      // Check and increment count
+      const kv = env.GUIDE_GIVEAWAY;
+      let count = 0;
+      if (kv) {
+        const val = await kv.get("count");
+        count = val ? parseInt(val) : 0;
+        if (count >= 10) return Response.json({ closed: true, error: "Giveaway closed" }, { status: 410 });
+        await kv.put("count", String(count + 1));
+      }
+
+      // Notify Alex
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: "Jack Mini <jack@jackmini.com>",
+          to: "jackmini@silentoperator.ai",
+          subject: `Guide Request #${count + 1} - ${name}`,
+          html: `<p><b>Name:</b> ${name}</p><p><b>Email:</b> ${email}</p><p><b>Building:</b> ${reason}</p><p><b>Wants call:</b> ${call}</p>`
+        })
+      });
+
+      return Response.json({ ok: true }, {
+        headers: { "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
+    if (url.pathname === "/api/guide-request" && request.method === "OPTIONS") {
+      return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
+    }
+
     // Canonical path redirects
     const pathAliases = { "/localedge": "/local-edge", "/LocalEdge": "/local-edge", "/GBP-Audit": "/gbp-audit", "/GbpAudit": "/gbp-audit" };
     if (pathAliases[url.pathname]) {
