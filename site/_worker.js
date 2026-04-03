@@ -207,6 +207,7 @@ export default {
     }
 
     // ── /download — post-purchase download page ─────────────────
+    if (url.pathname === "/guide") return Response.redirect("https://jackmini.com/#product", 301);
     if (url.pathname === "/download") {
       const sessionId = url.searchParams.get("session_id");
       if (!sessionId) return new Response("Missing session.", { status: 400 });
