@@ -1,0 +1,10 @@
+{
+  "last_updated": null,
+  "pages": {
+    "https://jackmini.com": {"gsc_clicks": null, "gsc_impressions": null, "stripe_kit_sales": null},
+    "https://jackmini.com/local-edge": {"gsc_clicks": null, "gsc_impressions": null, "stripe_audit_sales": null},
+    "https://jackmini.com/guide-giveaway": {"gsc_clicks": null, "gsc_impressions": null, "form_submissions": null},
+    "https://jackmini.com/guide": {"gsc_clicks": null, "gsc_impressions": null}
+  },
+  "audit_log": []
+}
