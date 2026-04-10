@@ -1,10 +1,59 @@
 {
-  "last_updated": null,
+  "last_updated": "2026-04-06T13:00:00Z",
   "pages": {
-    "https://jackmini.com": {"gsc_clicks": null, "gsc_impressions": null, "stripe_kit_sales": null},
-    "https://jackmini.com/local-edge": {"gsc_clicks": null, "gsc_impressions": null, "stripe_audit_sales": null},
-    "https://jackmini.com/guide-giveaway": {"gsc_clicks": null, "gsc_impressions": null, "form_submissions": null},
-    "https://jackmini.com/guide": {"gsc_clicks": null, "gsc_impressions": null}
+    "https://jackmini.com": {
+      "gsc_clicks": null,
+      "gsc_impressions": null,
+      "stripe_guide_sales_7d": 4,
+      "stripe_guide_sales_lifetime": 5,
+      "stripe_revenue_7d": 116,
+      "stripe_revenue_lifetime": 145
+    },
+    "https://jackmini.com/local-edge": {
+      "gsc_clicks": null,
+      "gsc_impressions": null,
+      "stripe_audit_sales": null
+    },
+    "https://jackmini.com/guide-giveaway": {
+      "gsc_clicks": null,
+      "gsc_impressions": null,
+      "form_submissions": null
+    },
+    "https://jackmini.com/guide": {
+      "gsc_clicks": null,
+      "gsc_impressions": null,
+      "note": "Redirects to /#product"
+    }
   },
-  "audit_log": []
+  "audit_log": [
+    {
+      "date": "2026-04-06",
+      "pages_audited": [
+        "https://jackmini.com",
+        "https://jackmini.com/local-edge",
+        "https://jackmini.com/guide-giveaway",
+        "https://jackmini.com/guide"
+      ],
+      "changes_made": [
+        {
+          "file": "index.html",
+          "change": "Guide product CTA button: 'Get the Guide' → 'Get the Guide — $29'",
+          "reason": "Price was shown in hero CTA but missing from the actual product card buy button — creates friction/surprise at click. Eliminated the inconsistency."
+        },
+        {
+          "file": "index.html",
+          "change": "Starter Kit product CTA button: 'Get the Starter Kit' → 'Get the Starter Kit — $97'",
+          "reason": "Same issue — price missing from primary conversion button. Consistency and no price surprise at checkout."
+        },
+        {
+          "file": "local-edge.html",
+          "change": "Final CTA headline: 'Ready to see what your competitors are doing?' → 'See exactly where you're losing — and fix it in 24 hours.'",
+          "reason": "Question headline at bottom of page was weaker than hero and didn't close on an outcome. New version reinforces the core value prop (exact diagnosis) and the 24hr delivery differentiator."
+        }
+      ],
+      "metric_deltas_vs_last_week": {
+        "note": "First week with data. No prior baseline. GSC data unavailable (no data yet per script). Stripe: $116 revenue, 4 sales in last 7 days."
+      }
+    }
+  ]
 }
