@@ -311,6 +311,17 @@ export default {
     }
 
     // All other routes → static assets
-    return env.ASSETS.fetch(request);
+    // Explicitly serve blog posts and other HTML files from assets
+    if (path.startsWith('/blog/') || path === '/blog') {
+      const blogReq = path === '/blog' || path === '/blog/'
+        ? new Request(new URL('/blog/index.html', request.url))
+        : request;
+      const blogRes = await env.ASSETS.fetch(blogReq).catch(() => null);
+      if (blogRes && blogRes.status === 200) return blogRes;
+    }
+    // Try the exact asset first, then fall back to index.html
+    const assetRes = await env.ASSETS.fetch(request).catch(() => null);
+    if (assetRes && assetRes.status < 400) return assetRes;
+    return env.ASSETS.fetch(new Request(new URL('/index.html', request.url)));
   },
 };
