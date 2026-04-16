@@ -42,7 +42,7 @@
     nav .container { display: flex; align-items: center; justify-content: space-between; }
     nav .brand { font-weight: 700; font-size: 15px; color: var(--text); }
     nav .brand span { color: var(--cyan); }
-    nav .nav-links { display: flex; gap: 24px; font-size: 14px; }
+    nav .nav-links { display: flex; gap: 32px; font-size: 14px; }
     nav .nav-links a { color: var(--muted); }
     nav .nav-links a:hover { color: var(--text); text-decoration: none; }
 
@@ -90,10 +90,13 @@
 
 <nav>
   <div class="container">
-    <a href="/" class="brand">Jack<span>Mini</span>.com</a>
+    <a href="/" class="brand">Jack<span>Mini</span></a>
     <div class="nav-links">
-      <a href="/">Home</a>
+      <a href="/#product">Guide</a>
+      <a href="/dashboard.html">Dashboard</a>
       <a href="/blog/">Blog</a>
+      <a href="/starter-kit" class="active">Starter Kit</a>
+      <a href="https://x.com/JackMiniAI" target="_blank" rel="noopener">@JackMiniAI</a>
     </div>
   </div>
 </nav>

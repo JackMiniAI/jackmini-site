@@ -7,15 +7,16 @@
 - RAM: [amount]
 
 ## AI / Model Layer
-- Primary model: [e.g., claude-3-5-sonnet, gpt-4o, ollama/qwen3:14b]
-- Local LLM endpoint: [e.g., http://127.0.0.1:11434 — if using Ollama]
-- Worker model: [e.g., nvidia/moonshotai/kimi-k2.5 — free tier]
+- Primary model: [e.g., claude-3-5-sonnet, gpt-4o] — paid, for strategy and judgment
+- Local LLM: [e.g., ollama/qwen3:14b] — free, for background work
+- Local endpoint: [e.g., http://127.0.0.1:11434 — if using Ollama]
 
 ## Authenticated CLIs
 # List every CLI that's set up and what it can do
 - openclaw: [path] — main agent runtime
-- gh: [path] — GitHub (issues, PRs, CI)
-- [add your own: gcloud, aws, stripe-cli, etc.]
+- gh: [path] — GitHub (issues, PRs, CI) — optional
+- gog: [path] — Gmail, Calendar, Contacts — if email integration needed
+- [add your own: stripe-cli, aws, gcloud, etc.]
 
 ## APIs & Secrets
 # Don't put actual keys here — reference where they're stored

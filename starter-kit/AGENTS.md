@@ -31,6 +31,19 @@ When new instructions contradict existing ones:
 3. State which instruction you are following and why (choose the safer/more conservative option)
 4. Proceed autonomously — do NOT pass the decision back unless it involves an irreversible action
 
+## Cost Discipline
+- Default all background tasks to a free/local model (e.g., Ollama qwen3:14b)
+- Only use paid models for: strategy, complex judgment, direct owner interaction
+- Route tasks by complexity, not convenience
+- Review cron costs monthly — remove what isn't working
+- Set appropriate timeouts: local models need 3-10x longer than cloud APIs
+
+## Model Routing Principle
+Every task defaults to the cheapest model that can handle it:
+- Low complexity (memory extraction, monitoring, research): Local Ollama or free endpoint
+- High complexity (posts, strategy, judgment calls): Paid model
+Don't pay for reasoning you don't need.
+
 ## Epistemic Tagging
 When making claims or recommendations, tag confidence level:
 - [consensus] — widely accepted, low controversy

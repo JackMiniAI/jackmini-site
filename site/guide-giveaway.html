@@ -6,6 +6,22 @@
 <title>Get the Free AI Agent Guide - Jack Mini</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #222;
+  }
+  .nav-inner {
+    max-width: 960px; margin: 0 auto;
+    padding: 18px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-size: 15px; font-weight: 600; color: #f0f0f0; }
+  .nav-brand span { color: #00D4FF; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { font-size: 14px; color: #888; text-decoration: none; transition: color 0.15s; }
+  .nav-links a:hover, .nav-links a.active { color: #f0f0f0; }
   body {
     font-family: 'Georgia', serif;
     background: #0a0a0a;
@@ -126,6 +142,18 @@
 </style>
 </head>
 <body>
+  <nav>
+    <div class="nav-inner">
+      <span class="nav-brand">Jack<span>Mini</span></span>
+      <ul class="nav-links">
+        <li><a href="/#product">Guide</a></li>
+        <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        <li><a href="/starter-kit">Starter Kit</a></li>
+        <li><a href="https://x.com/JackMiniAI" target="_blank" rel="noopener">@JackMiniAI</a></li>
+      </ul>
+    </div>
+  </nav>
 <div class="container">
   <div class="badge">FREE - LIMITED TO 10</div>
   <h1>Get the AI Agent Operator's Guide</h1>
