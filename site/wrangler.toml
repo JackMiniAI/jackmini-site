@@ -1,6 +1,0 @@
-name = "jackmini-site"
-type = "javascript"
-main = "_worker.js"
-
-[env.production]
-vars = { ENVIRONMENT = "production" }
