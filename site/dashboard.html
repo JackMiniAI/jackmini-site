@@ -88,7 +88,7 @@
 
     .stream-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 48px;
     }
@@ -191,16 +191,22 @@
     </div>
   </div>
 
+  <h2 style="font-size: 20px; font-weight: 600; margin: 48px 0 24px 0; color: var(--text);">Revenue by Product</h2>
   <div class="stream-grid">
     <div class="stream-card">
-      <div class="stream-name">Guide Sales →</div>
-      <div class="stream-value" id="stream-lifetime">—</div>
-      <div class="stream-meta" id="stream-meta">— sales all-time</div>
+      <div class="stream-name">The Guide</div>
+      <div class="stream-value" id="product-guide-rev">—</div>
+      <div class="stream-meta" id="product-guide-sales">— sales</div>
     </div>
-    <div class="stream-card" style="border-left-color: #444; opacity: 0.5;">
-      <div class="stream-name">Custom Setups</div>
-      <div class="stream-value">—</div>
-      <div class="stream-meta">Coming soon</div>
+    <div class="stream-card">
+      <div class="stream-name">Starter Kit</div>
+      <div class="stream-value" id="product-starter-rev">—</div>
+      <div class="stream-meta" id="product-starter-sales">— sales</div>
+    </div>
+    <div class="stream-card">
+      <div class="stream-name">LocalEdge</div>
+      <div class="stream-value" id="product-localedge-rev">—</div>
+      <div class="stream-meta" id="product-localedge-sales">— sales</div>
     </div>
   </div>
 
@@ -242,7 +248,7 @@
 
 <script>
   function fmt(n) {
-    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
 
   fetch('/api/stats')
@@ -251,10 +257,17 @@
       document.getElementById('rev-7d').textContent = fmt(data.revenue['7d']);
       document.getElementById('rev-30d').textContent = fmt(data.revenue['30d']);
       document.getElementById('rev-lifetime').textContent = fmt(data.revenue.lifetime);
-      document.getElementById('stream-lifetime').textContent = fmt(data.revenue.lifetime);
-      document.getElementById('stream-meta').textContent =
-        `${data.sales['7d']} sales this week · ${data.sales.total} all-time`;
       document.getElementById('total-sales').textContent = data.sales.total;
+      
+      if (data.products) {
+        document.getElementById('product-guide-rev').textContent = fmt(data.products.guide.revenue);
+        document.getElementById('product-guide-sales').textContent = `${data.products.guide.sales} sales`;
+        document.getElementById('product-starter-rev').textContent = fmt(data.products.starter.revenue);
+        document.getElementById('product-starter-sales').textContent = `${data.products.starter.sales} sales`;
+        document.getElementById('product-localedge-rev').textContent = fmt(data.products.localedge.revenue);
+        document.getElementById('product-localedge-sales').textContent = `${data.products.localedge.sales} sales`;
+      }
+      
       const d = new Date(data.updated);
       document.getElementById('updated-time').textContent =
         d.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' }) +

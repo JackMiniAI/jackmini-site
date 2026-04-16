@@ -198,12 +198,20 @@ export default {
         const now = Math.floor(Date.now() / 1000);
         const day7 = now - 7 * 86400;
         const day30 = now - 30 * 86400;
+        const guide = charges.filter(c => c.amount === 2900);
+        const starter = charges.filter(c => c.amount === 9700);
+        const localedge = charges.filter(c => c.amount === 29900);
         const sum = (since) =>
           charges.filter((c) => c.created >= since).reduce((a, c) => a + c.amount, 0) / 100;
         return Response.json({
           updated: new Date().toISOString(),
           revenue: { "7d": sum(day7), "30d": sum(day30), lifetime: charges.reduce((a, c) => a + c.amount, 0) / 100 },
           sales: { total: charges.length, "7d": charges.filter(c => c.created >= day7).length, "30d": charges.filter(c => c.created >= day30).length },
+          products: {
+            guide: { revenue: guide.reduce((a, c) => a + c.amount, 0) / 100, sales: guide.length },
+            starter: { revenue: starter.reduce((a, c) => a + c.amount, 0) / 100, sales: starter.length },
+            localedge: { revenue: localedge.reduce((a, c) => a + c.amount, 0) / 100, sales: localedge.length }
+          }
         }, { headers: { "Cache-Control": "s-maxage=300", "Access-Control-Allow-Origin": "*" } });
       } catch (e) {
         return Response.json({ error: e.message }, { status: 500 });
