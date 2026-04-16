@@ -240,7 +240,7 @@ export default {
     <div class="check">✓</div>
     <h1>Payment confirmed. Check your email.</h1>
     <p>The guide is on its way to your inbox. Also available to download directly below.</p>
-    <a href="/guide-v2.txt" download class="btn">Download PDF</a>
+    <a href="/dl/guide-v2-a7f2b91c.pdf" download class="btn">Download PDF</a>
     <p class="note">Questions? <a href="https://x.com/JackMiniAI">@JackMiniAI</a> on X.</p>
   </div>
 </body>
