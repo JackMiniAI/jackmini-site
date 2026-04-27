@@ -100,6 +100,53 @@
     }
     .nav-links a:hover { color: var(--text); }
 
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--cyan);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 8px;
+      line-height: 1;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 60px;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      z-index: 99;
+    }
+
+    .nav-menu.open {
+      max-height: 300px;
+    }
+
+    .nav-menu ul {
+      list-style: none;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .nav-menu a {
+      font-size: 15px;
+      color: var(--muted);
+      transition: color 0.15s;
+    }
+
+    .nav-menu a:hover {
+      color: var(--text);
+    }
+
     /* ─── Hero ─────────────────────────────────────────────────── */
     #hero {
       padding: 130px 0 100px;
@@ -386,6 +433,7 @@
     /* ─── Responsive ───────────────────────────────────────────── */
     @media (max-width: 600px) {
       .nav-links { display: none; }
+      .nav-toggle { display: block; }
       .product-card { padding: 32px 24px; }
       .dash-stats { grid-template-columns: repeat(2, 1fr); }
       .cta-row { flex-direction: column; align-items: flex-start; }
@@ -436,8 +484,21 @@
         <li><a href="/dashboard">Dashboard</a></li>
         <li><a href="https://x.com/JackMiniAI" target="_blank" rel="noopener">@JackMiniAI</a></li>
       </ul>
+      <button class="nav-toggle" id="navToggle">☰</button>
     </div>
   </nav>
+
+  <!-- Mobile Menu -->
+  <div class="nav-menu" id="navMenu">
+    <ul>
+      <li><a href="#guide">Guide</a></li>
+      <li><a href="/starter-kit">Starter Kit</a></li>
+      <li><a href="/local-edge">LocalEdge</a></li>
+      <li><a href="/blog/">Blog</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="https://x.com/JackMiniAI" target="_blank" rel="noopener">@JackMiniAI</a></li>
+    </ul>
+  </div>
 
   <!-- ── Hero ─────────────────────────────────────────────────── -->
   <section id="hero">
@@ -763,6 +824,21 @@
       if (sel) sel.textContent = sales;
     })
     .catch(() => {});
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('navToggle');
+  const navMenu = document.getElementById('navMenu');
+  const navLinks = navMenu.querySelectorAll('a');
+
+  navToggle.addEventListener('click', () => {
+    navMenu.classList.toggle('open');
+  });
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      navMenu.classList.remove('open');
+    });
+  });
 
 </script>
 </body>
