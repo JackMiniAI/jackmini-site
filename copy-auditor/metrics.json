@@ -1,18 +1,18 @@
 {
-  "last_updated": "2026-04-13T13:05:00Z",
+  "last_updated": "2026-04-27T15:00:00Z",
   "pages": {
     "https://jackmini.com": {
       "gsc_clicks": null,
       "gsc_impressions": null,
-      "stripe_guide_sales_7d": 6,
-      "stripe_guide_sales_lifetime": 11,
-      "stripe_revenue_7d": 174,
-      "stripe_revenue_lifetime": 319
+      "stripe_guide_sales_7d": 5,
+      "stripe_guide_sales_lifetime": 18,
+      "stripe_revenue_7d": 281,
+      "stripe_revenue_lifetime": 910
     },
     "https://jackmini.com/local-edge": {
       "gsc_clicks": null,
       "gsc_impressions": null,
-      "stripe_audit_sales": null
+      "stripe_audit_sales": 0
     },
     "https://jackmini.com/guide-giveaway": {
       "gsc_clicks": null,
@@ -80,6 +80,29 @@
         "stripe_sales_7d": {"prev": 4, "curr": 6, "delta_pct": "+50%"},
         "stripe_revenue_lifetime": {"prev": 145, "curr": 319, "delta_pct": "+120%"},
         "stripe_sales_lifetime": {"prev": 5, "curr": 11, "delta_pct": "+120%"},
+        "gsc": "No data available yet"
+      }
+    },
+    {
+      "date": "2026-04-27",
+      "pages_audited": [
+        "https://jackmini.com",
+        "https://jackmini.com/local-edge",
+        "https://jackmini.com/guide-giveaway",
+        "https://jackmini.com/guide"
+      ],
+      "changes_made": [
+        {
+          "file": "guide-giveaway.html",
+          "change": "Submit button: 'Send Me the Guide' → 'Get My Free Guide'",
+          "reason": "Passive, system-centric phrasing changed to user-centric action. Consistent with April 13 pattern on index.html (Send Chapter 1 → Get Chapter 1 Free). Cold prospect perspective: action is on the user, not the system."
+        }
+      ],
+      "metric_deltas_vs_last_week": {
+        "stripe_revenue_7d": {"prev": 174, "curr": 281, "delta_pct": "+61%"},
+        "stripe_sales_7d": {"prev": 6, "curr": 5, "delta_pct": "-17%"},
+        "stripe_revenue_lifetime": {"prev": 319, "curr": 910, "delta_pct": "+185%"},
+        "stripe_sales_lifetime": {"prev": 11, "curr": 22, "delta_pct": "+100%"},
         "gsc": "No data available yet"
       }
     }
