@@ -383,6 +383,14 @@ export default {
       return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
     }
 
+    // Blog slug routes — rewrite /blog/{slug} to /blog/{slug}.html
+    if (url.pathname.startsWith("/blog/") && !url.pathname.endsWith(".html") && !url.pathname.endsWith("/")) {
+      const newPath = url.pathname + ".html";
+      const newUrl = new URL(request.url);
+      newUrl.pathname = newPath;
+      return env.ASSETS.fetch(new Request(newUrl, request));
+    }
+
     // Canonical path redirects
     const pathAliases = { "/localedge": "/local-edge", "/LocalEdge": "/local-edge", "/GBP-Audit": "/gbp-audit", "/GbpAudit": "/gbp-audit" };
     if (pathAliases[url.pathname]) {
