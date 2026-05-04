@@ -149,9 +149,9 @@
     </div>
   </nav>
 <div class="container">
-  <div class="badge">FREE - LIMITED TO 10</div>
+  <div class="badge">BETA - 10 SPOTS</div>
   <h1>Get the AI Agent Operator's Guide</h1>
-  <p class="sub">The same guide that's been selling at $29. No coupon, no catch - fill this out and I'll send it directly. I want to talk to people actually building with AI agents, not just reading about them.</p>
+  <p class="sub">The same guide that's been selling at $29. No coupon, no catch - fill this out and I'll send it directly. I'm opening 10 slots to talk with people actually building with AI agents. Once they're full, I'll close it for now.</p>
   <div class="spots">Spots remaining: <span id="spots-count">loading...</span></div>
 
   <form id="giveaway-form">
@@ -176,7 +176,7 @@
       </select>
     </div>
     <button type="submit" id="submit-btn">Get My Free Guide</button>
-    <div class="error-msg" id="error-msg">Something went wrong. Try again or email jack@jackmini.com directly.</div>
+    <div class="error-msg" id="error-msg">Something went wrong. Try again or email amikaloff@gmail.com directly.</div>
     <p class="note">No spam. One email with the guide, that's it. If you said yes to the call, I'll follow up separately.</p>
   </form>
 
@@ -229,7 +229,7 @@ document.getElementById('giveaway-form').addEventListener('submit', async functi
       const body = await res.json().catch(() => ({}));
       if (body.closed) {
         btn.textContent = 'Giveaway closed';
-        document.getElementById('error-msg').textContent = 'All 10 spots are taken. Follow @jackmini.com for the next one.';
+        document.getElementById('error-msg').textContent = 'All 10 spots are taken. Follow @JackMiniAI for the next one.';
       } else {
         document.getElementById('error-msg').style.display = 'block';
         btn.disabled = false;

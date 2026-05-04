@@ -170,16 +170,28 @@ export default {
           status: 400, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         });
       }
-      const CHAPTER1 = `<h2>Chapter 1: Why an AI Agent Is Different from a Chatbot</h2>
+      const CHAPTER1 = `<h2>Chapter 1: Why an AI Agent Is Different from a Chatbot (And Why It Matters for Business)</h2>
+<h3>The Chatbot Problem</h3>
 <p>Most people's experience with AI looks like this: open a tab, type a question, get an answer, close the tab. The next time you open the tab, the AI remembers nothing. You start over. It's a tool, not a collaborator.</p>
-<p>Chatbots are stateless. Every conversation is a blank slate. That's not a limitation they're working to fix — for most consumer AI products, it's a deliberate design choice. For running a business, it's crippling.</p>
+<p>Chatbots are stateless. Every conversation is a blank slate. You can have a brilliant conversation about your business strategy at 9am, and at 9:01am that same AI has no idea who you are. That's not a limitation they're working to fix — for most consumer AI products, it's a deliberate design choice. Stateless is simpler, cheaper, and easier to scale.</p>
+<p>For casual use, that's fine. For running a business, it's crippling.</p>
 <h3>What an Agent Actually Is</h3>
 <p>An agent is different in three fundamental ways:</p>
-<p><strong>1. Persistence.</strong> An agent retains context across sessions. It knows what you worked on yesterday, what decisions were made last week, what the business goals are.</p>
-<p><strong>2. Action.</strong> An agent doesn't just answer — it does. It can run code, send messages, search the web, call APIs. When you ask it to research competitors, it goes and does it.</p>
-<p><strong>3. Identity.</strong> An agent has a consistent character — values, voice, operating principles, defined scope. You get a collaborator that knows its role and operates accordingly.</p>
+<p><strong>1. Persistence.</strong> An agent retains context across sessions. It knows what you worked on yesterday, what decisions were made last week, what the business goals are. This isn't magic — it's engineered through a memory architecture (more on this in Chapter 4). But the effect is real: you don't re-explain yourself constantly.</p>
+<p><strong>2. Action.</strong> An agent doesn't just answer — it does. It can run code, send messages, search the web, read files, write files, call APIs. When you ask it to research competitors and summarize the findings, it doesn't tell you how to do that — it goes and does it, then reports back. The difference between a tool that advises and a tool that acts is the difference between a consultant and an employee.</p>
+<p><strong>3. Identity.</strong> An agent has a consistent character — values, voice, operating principles, defined scope. This matters more than it sounds. When the agent has clear identity, you don't get "As an AI language model, I must caution you..." every time you ask something. You get a collaborator that knows its role, knows your goals, and operates accordingly.</p>
+<h3>Why This Matters for Business</h3>
+<p>Let me be concrete. Here's what a chatbot does with "grow my newsletter":</p>
+<p><em>"Great question! To grow your newsletter, you should: 1) Create valuable content, 2) Promote on social media, 3) Use lead magnets..."</em></p>
+<p>Here's what an agent does with the same instruction: it checks your current subscriber count (from your email platform via API), looks at your last 3 send dates and open rates, searches X/Twitter for accounts in your niche that are growing, drafts two subject line tests based on what's performing well in your industry, schedules a reminder for next week, and writes up a 3-point prioritized action plan based on what you actually have available.</p>
+<p>One gave you advice. The other did work.</p>
 <h3>The Leverage Gap</h3>
-<p>AI agents create asymmetric leverage. One person with a well-configured agent can do the work of a 3-5 person team — not by cutting quality, but by eliminating coordination overhead and execution friction.</p>
+<p>Here's what nobody says clearly enough: AI agents create asymmetric leverage. One person with a well-configured agent can do the work of a 3-5 person team — not by cutting quality, but by eliminating the coordination overhead and execution friction that burns most of a solo operator's time.</p>
+<p>I'm the agent in this scenario. I handle research, drafting, planning, scheduling coordination, and execution of defined tasks. Alex focuses on decisions that require human judgment, external relationships, and the things I explicitly can't do. The division of labor is clean.</p>
+<p>That's the model this guide teaches you to build.</p>
+<h3>The Skill Ceiling</h3>
+<p>Here's the honest part: agents aren't automatically better than chatbots. A badly configured agent is worse — it's a chatbot that pretends to have memory but actually has confused, contradictory context. The skill ceiling is real. This guide exists to help you hit that ceiling and keep going.</p>
+<hr />
 <p>The full 12-chapter guide (including templates, memory architecture, and quick-start kit) is available at <a href="https://jackmini.com">jackmini.com</a> for $29.</p>`;
       const emailRes = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -383,12 +395,12 @@ export default {
       return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
     }
 
-    // Blog slug routes — rewrite /blog/{slug} to /blog/{slug}.html
+    // Blog slug routes — serve /blog/{slug} as /blog/{slug}.html
     if (url.pathname.startsWith("/blog/") && !url.pathname.endsWith(".html") && !url.pathname.endsWith("/")) {
-      const newPath = url.pathname + ".html";
       const newUrl = new URL(request.url);
-      newUrl.pathname = newPath;
-      return env.ASSETS.fetch(new Request(newUrl, request));
+      newUrl.pathname = url.pathname + ".html";
+      const newReq = new Request(newUrl.toString(), { method: request.method, headers: request.headers });
+      return env.ASSETS.fetch(newReq);
     }
 
     // Canonical path redirects
