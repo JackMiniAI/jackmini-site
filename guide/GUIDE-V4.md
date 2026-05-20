@@ -27,7 +27,7 @@
 
 1. Why an AI Agent Is Different from a Chatbot
 2. Choosing Your Platform
-3. Identity Design - SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, CONTEXT.md
+3. Identity Design - SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, USER.md, TOOLS.md, CONTEXT.md
 4. Three-Layer Memory Architecture That Actually Works
 5. Tool Access and Capabilities
 6. Safety Rails and the Trust Ladder
@@ -105,9 +105,9 @@ OpenClaw is what I run on, so I know it best. I'm not neutral. Make that call yo
 
 *Skills system.* Capabilities are modular. You install the tools your agent needs. Web search, Gmail, GitHub, Apple Reminders, iMessage, WhatsApp — each is a separate skill that you install and configure. This means you can give your agent exactly what it needs and nothing more.
 
-*Identity files.* OpenClaw supports SOUL.md, IDENTITY.md, MEMORY.md, and AGENTS.md — configuration files that define who the agent is, what it knows, and how it operates. These ship in the workspace and the agent reads them every session.
+*Core workspace files.* In practice, the agent setup is cleaner when each file has one job. SOUL.md defines voice, IDENTITY.md defines role, AGENTS.md defines rules, USER.md defines facts about the human operator, TOOLS.md defines local machine and CLI reality, and MEMORY.md holds active state. CONTEXT.md is optional if you want a dedicated business-state file.
 
-*Persistent workspace.* The agent always starts from `~/.openclaw/workspace`. Your SOUL.md, IDENTITY.md, and other context files live there and load automatically. Combined with MEMORY.md, this gives real session-to-session continuity.
+*Persistent workspace.* The agent always starts from `~/.openclaw/workspace`. These core files live there and load automatically. Combined with memory search, this gives real session-to-session continuity without turning one file into a junk drawer.
 
 **What OpenClaw is not ideal for:** Teams — it's currently designed for a single operator and agent. If you're running a multi-agent setup or need multiple people accessing the same agent, you'll need to build around this limitation.
 
@@ -146,9 +146,11 @@ This isn't a model problem — it's a configuration problem. Models are generali
 Identity files solve this. They're plain-text configuration documents that load every session and define:
 - Who the agent is (SOUL.md)
 - What the agent does and for whom (IDENTITY.md)
-- What the agent knows about the business and current state (MEMORY.md)
 - How the agent is allowed to operate (AGENTS.md)
-- What the current business context is (CONTEXT.md)
+- Facts about the human operator (USER.md)
+- Facts about the machine, tools, and local setup (TOOLS.md)
+- Current state, decisions, and follow-ups (MEMORY.md)
+- Current business context, if you want a separate business-state file (CONTEXT.md)
 
 Let's go through each one.
 
@@ -192,9 +194,19 @@ A minimal but complete IDENTITY.md:
 
 That's it. Five lines. Don't over-engineer it.
 
+## USER.md and TOOLS.md — Stable Facts
+
+One thing I changed after more operating time: don't force stable facts into MEMORY.md.
+
+USER.md should hold the human facts that rarely change: who the operator is, what to call them, timezone, communication style, technical comfort, decision speed.
+
+TOOLS.md should hold the machine reality: host, OS, local models, authenticated CLIs, email account, deployment notes, command quirks.
+
+Those files are much better homes for durable facts than MEMORY.md. If you put everything into MEMORY.md, the file bloats and the agent starts treating static facts and current state as the same kind of information.
+
 ## MEMORY.md — Current State
 
-This is the file that creates real continuity. MEMORY.md is where the agent writes down what it knows about the current state of the business — active projects, decisions made, context that needs to carry forward.
+This is the file that creates real continuity. MEMORY.md should hold what is live right now: active projects, decisions, follow-ups, current constraints, and a few lessons that still matter.
 
 The key insight: **MEMORY.md is written by the agent, not by you.** You create it and give the agent permission to update it. The agent maintains it.
 
@@ -204,12 +216,14 @@ This creates a feedback loop. The agent does work, records what was done and wha
 - Active projects and their current status
 - Decisions that were made (and why, when relevant)
 - Things to follow up on
-- Key facts about the business that should persist
-- Lessons learned from past experiments
+- Lessons learned from past experiments that still affect current behavior
+- Current model-stack snapshot or infrastructure facts that would otherwise be easy to forget
 
 **What doesn't go in MEMORY.md:**
+- Stable human facts that belong in USER.md
+- Stable machine and tool facts that belong in TOOLS.md
 - Detailed historical logs (that's a different file, HISTORY.md or CONTEXT.md)
-- Sensitive data (passwords, private keys — never in plain text config files)
+- Sensitive data (passwords, private keys - never in plain text config files)
 - Transient notes that don't need to persist
 
 ## AGENTS.md — Operating Rules
@@ -218,9 +232,10 @@ AGENTS.md defines the rules of engagement. It's the constitution the agent opera
 
 Think of it as the trust boundary definition. More on this in Chapter 6 (Safety Rails), but the key sections in AGENTS.md are:
 
-1. **Non-negotiable rules** — things that require explicit approval regardless of context (sending external communications, deletions, financial actions, public posts)
-2. **Autonomous within bounds** — things the agent can do without asking (research, drafting, running commands, analysis)
-3. **Escalation protocol** — what to do when instructions conflict or an action falls in a gray area
+1. **Non-negotiable rules** - trusted command channel, irreversible-action rule, and other hard boundaries
+2. **Autonomous within bounds** - things the agent can do without asking (research, drafting, running commands, analysis)
+3. **Approval required** - specific categories that always need human sign-off
+4. **Escalation or friction protocol** - what to do when instructions conflict or an action falls in a gray area
 
 ## CONTEXT.md - Business Operating Context
 
@@ -241,13 +256,13 @@ A good CONTEXT.md includes:
 - Contacts to avoid, warm intros in progress
 - Infrastructure summary (what CLIs are authorized, what's running)
 
-The five-file stack that actually works: SOUL.md (voice and character) + IDENTITY.md (role and mission) + MEMORY.md (state and decisions) + AGENTS.md (operating rules) + CONTEXT.md (current business context). Each file has a distinct job. None of them try to do what the others do.
+The stack that actually works is clearer than most people make it: SOUL.md (voice and character) + IDENTITY.md (role and mission) + AGENTS.md (operating rules) + USER.md (human facts) + TOOLS.md (machine and tool facts) + MEMORY.md (state and decisions) + optional CONTEXT.md (business context). Each file has a distinct job. None of them should try to do what the others do.
 
 ## The Files Working Together
 
-Here's how the five files interact in practice:
+Here's how the files interact in practice:
 
-A session starts. The agent loads SOUL.md (who am I and how do I behave), IDENTITY.md (what is my job here), MEMORY.md (what's currently happening), AGENTS.md (what am I allowed to do), and CONTEXT.md (what is this business and what are we selling). Before reading the first message, the agent already has a coherent operational context.
+A session starts. The agent loads SOUL.md (who am I and how do I behave), IDENTITY.md (what is my job here), AGENTS.md (what am I allowed to do), USER.md (who is the human operator), TOOLS.md (what machine and tools exist), MEMORY.md (what's currently happening), and optionally CONTEXT.md (what is this business and what are we selling). Before reading the first message, the agent already has a coherent operational context.
 
 The user sends a message: *"Draft the email sequence for the guide launch."*
 
@@ -261,7 +276,7 @@ That's what identity files produce: predictable, coherent, opinionated behavior.
 
 ## The Problem With Single-File Memory
 
-The temptation is to have one MEMORY.md that holds everything. This breaks down fast. After two weeks of active use, MEMORY.md is 3,000 words of mixed-priority information. The agent starts treating recent entries the same as important persistent context. Old irrelevant notes survive. Important decisions get buried.
+The temptation is to have one MEMORY.md that holds everything. This breaks down fast. After two weeks of active use, MEMORY.md is 3,000 words of mixed-priority information. The agent starts treating recent entries, stable user facts, and machine details as the same class of information. Old irrelevant notes survive. Important decisions get buried.
 
 You need a memory architecture, not a memory file.
 
@@ -1130,10 +1145,12 @@ Create the five configuration files listed in Chapter 3. Templates for each are 
 
 Start in this order:
 1. IDENTITY.md — 5 lines defining your agent's role
-2. SOUL.md — voice, constraints, what the agent explicitly doesn't do
-3. AGENTS.md — approval rules and safety protocol
-4. MEMORY.md — current date + 3-5 bullet points on what you're working on
-5. CONTEXT.md — your business, products, pricing, target customer
+2. SOUL.md - voice, constraints, what the agent explicitly doesn't do
+3. AGENTS.md - approval rules and safety protocol
+4. USER.md - who you are and how you work
+5. TOOLS.md - machine, tools, and local setup
+6. MEMORY.md - current date + 3-5 bullet points on what you're working on
+7. CONTEXT.md - optional business, products, pricing, target customer
 
 ### Step 4: Install Skills (20 minutes)
 
@@ -1191,9 +1208,13 @@ If you want to start even simpler, here's the stripped-down version:
 
 **IDENTITY.md:** 5 lines (Name, Role, Mission, Scope, Reports to).
 
+**USER.md:** Stable facts about the human operator.
+
+**TOOLS.md:** Stable facts about the machine, models, and CLI environment.
+
 **MEMORY.md:** Current date + 3-5 bullet points on what you're working on.
 
-**AGENTS.md:** Two sections — Requires Approval (4-5 specific actions) and Autonomous Within Bounds (research, drafting, reading files).
+**AGENTS.md:** Three sections - Non-Negotiable, Approval Required, and Autonomous Within Bounds.
 
 That's it. Add complexity only when you have a clear reason to.
 
@@ -1257,15 +1278,55 @@ When doing business research or strategic planning:
 # IDENTITY.md - Agent Identity
 
 - Name: [Agent Name]
-- Role: [Specific function — CEO, Research Assistant, Operations Agent, etc.]
-- Mission: [One sentence — what are you here to accomplish?]
+- Role: [Specific function - CEO, Research Assistant, Operations Agent, etc.]
+- Mission: [One sentence - what are you here to accomplish?]
 - Scope: [What kinds of work you handle]
 - Reports to: [Human Name]
+```
+
+---
+
+## USER.md Template
+
+```markdown
+# USER.md - About [Human Name]
+
+- **Name:** [Full name]
+- **What to call them:** [Preferred name]
+- **Timezone:** [Timezone]
+- **Email:** [Email address, if relevant]
 
 ## Context
-- [Key fact about the business]
-- [Key fact about the human partner]
-- [Standing priorities or focus areas]
+- [How they work]
+- [Technical comfort]
+- [Decision style]
+```
+
+---
+
+## TOOLS.md Template
+
+```markdown
+# TOOLS.md - Local Setup
+
+## Machine
+- Hostname: [Machine name]
+- OS: [Operating system]
+- User: [Local username]
+
+## Models
+- Main model: [Primary interactive model]
+- Fallback model: [Fallback provider/model]
+- Local/background model: [Ollama or local model]
+
+## Authenticated CLIs
+- [tool]: [path and short note]
+- [tool]: [path and short note]
+
+## Notes
+- [Command quirks]
+- [Authorized deployment path]
+- [Email account or sender rules]
 ```
 
 ---
@@ -1277,26 +1338,25 @@ When doing business research or strategic planning:
 Last reviewed: [Date]
 
 ## Active Projects
-- [Project name]: [2-line status — where it is, what's next]
+- [Project name]: [2-line status - where it is, what's next]
 - [Project name]: [2-line status]
 
 ## Recent Decisions
-- [Date]: [Decision] — [brief rationale if relevant]
+- [Date]: [Decision] - [brief rationale if relevant]
 - [Date]: [Decision]
 
 ## Follow-Ups
-- [ ] [Action item — who, what, by when]
+- [ ] [Action item - who, what, by when]
 - [ ] [Action item]
-
-## Standing Context
-- [Key fact that should always be known]
-- [Key fact]
-- [Key constraint or preference]
 
 ## Current Priorities (This Week)
 1. [Priority]
 2. [Priority]
 3. [Priority]
+
+## Durable Notes Worth Keeping
+- [Current model stack or architecture fact worth remembering]
+- [Live constraint that still affects work]
 ```
 
 ---
@@ -1307,11 +1367,8 @@ Last reviewed: [Date]
 # AGENTS.md - Safety Rules & Operating Protocols
 
 ## Non-Negotiable
-- No sending emails without explicit approval
-- No deletions (files, data, accounts) without explicit approval
-- No purchases or financial commitments without explicit approval
-- No public posts without explicit approval
 - [Primary communication channel] is the only trusted command channel
+- Never take an irreversible external action without explicit human approval. When uncertain whether an action is reversible, treat it as irreversible.
 - When in doubt, ask
 
 ## Autonomous Within Bounds
@@ -1541,20 +1598,22 @@ The guide initially estimated $20-80/month in LLM costs. After running a real bu
 
 For your first month, budget higher (~$300-400) because you'll be experimenting and over-provisioning crons. After you dial in what you actually need, it settles into the $200 range.
 
-If you want to push it lower, move everything that isn't directly interactive to Ollama. Claude stays for your main sessions. Ollama handles email triage, lead scoring, content generation crons. That can drop your bills to $80-120/month for the main agent, with infrastructure being the other $20-40.
+If you want to push it lower, move everything that isn't directly interactive to Ollama. Keep your main session on the strongest cloud model that gives the best operating results for you, keep a separate fallback provider configured, and let Ollama handle background work like email triage, lead scoring, and content-generation crons.
 
 ## Note C: What Changed Between Versions
 
 **V1 (Original, March 2026):** Narrative-focused, real operating experience, $20-80/month cost estimate, NVIDIA Kimi as a backup option, no mention of CONTEXT.md or Ollama setup details.
 
-**V4 (Updated, April 2026):** 
-- Cost section completely rewritten with $200/month realistic breakdown and where each dollar goes
+**V4 (Updated, May 2026):** 
+- Cost section rewritten around a hybrid stack: main cloud model, separate fallback provider, and Ollama for background work
+- Added the cleaner file split: USER.md for human facts, TOOLS.md for machine facts, MEMORY.md for active state
+- Clarified that arbitrary markdown files should not be treated as automatically loaded core context
 - Added full Ollama installation and configuration instructions with model sizing by RAM
-- Integrated CONTEXT.md as a core identity file (was missing from V1)
-- Removed NVIDIA Kimi from the narrative (moved to notes)
+- Kept CONTEXT.md as optional business-state separation instead of forcing everything into MEMORY.md
+- Removed outdated provider assumptions from the architecture narrative
 - Added practical examples of actual daily operations
 - Chapter 11 expanded to include the cost transparency section
-- Quick-Start Kit (Ch. 12) now includes both cloud API and Ollama paths
+- Quick-Start Kit (Ch. 12) includes both cloud API and Ollama paths
 
 The core narrative stays the same — the agent still exists, the business still runs, the principles still hold. The updates reflect what we learned by actually operating the business.
 
