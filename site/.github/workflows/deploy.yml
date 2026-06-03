@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install Wrangler
+        run: npm install --global wrangler@4.97.0
       - name: Deploy to Cloudflare Pages
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          accountId: 51b3a1704115fc0e451a97101d5c1755
-          command: pages deploy . --project-name jackmini-site --commit-dirty=true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: wrangler pages deploy . --project-name jackmini-site --commit-dirty=true
