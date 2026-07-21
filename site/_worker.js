@@ -395,6 +395,8 @@ export default {
       return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
     }
 
+    const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
+
     // Blog slug routes — serve /blog/{slug} as /blog/{slug}.html
     if (url.pathname.startsWith("/blog/") && !url.pathname.endsWith(".html") && !url.pathname.endsWith("/")) {
       const newUrl = new URL(request.url);
@@ -404,13 +406,37 @@ export default {
     }
 
     // Canonical path redirects
+    const canonicalHost = hostname === "localmapcheck.com" ? "https://localmapcheck.com" : "https://jackmini.com";
     const pathAliases = { "/localedge": "/local-edge", "/LocalEdge": "/local-edge", "/GBP-Audit": "/gbp-audit", "/GbpAudit": "/gbp-audit" };
     if (pathAliases[url.pathname]) {
-      return Response.redirect("https://jackmini.com" + pathAliases[url.pathname], 301);
+      return Response.redirect(canonicalHost + pathAliases[url.pathname], 301);
     }
     const lowerPath = url.pathname.toLowerCase();
     if (lowerPath !== url.pathname && ["/local-edge", "/gbp-audit", "/dashboard", "/download", "/privacy", "/starter-kit", "/thank-you"].includes(lowerPath)) {
-      return Response.redirect("https://jackmini.com" + lowerPath, 301);
+      return Response.redirect(canonicalHost + lowerPath, 301);
+    }
+
+    if (hostname === "jackmini.com") {
+      if (url.pathname === "/" || url.pathname === "/index.html") {
+        const homeUrl = new URL(request.url);
+        homeUrl.pathname = "/jackmini-home.html";
+        return env.ASSETS.fetch(new Request(homeUrl.toString(), { method: request.method, headers: request.headers }));
+      }
+
+      if (url.pathname === "/gbp-audit" || url.pathname === "/gbp-audit.html") {
+        return Response.redirect("https://jackmini.com/local-edge", 301);
+      }
+    }
+
+    if (hostname === "localmapcheck.com") {
+      if (
+        url.pathname === "/local-edge" ||
+        url.pathname === "/local-edge.html" ||
+        url.pathname === "/gbp-audit" ||
+        url.pathname === "/gbp-audit.html"
+      ) {
+        return Response.redirect("https://localmapcheck.com/", 301);
+      }
     }
 
     // All other routes → static assets
