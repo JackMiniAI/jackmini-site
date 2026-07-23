@@ -18,6 +18,66 @@ const GBP_AUDIT_PAYMENT_LINK_ID = "plink_1THmN3CPOLRfuNkhGC6YGKF2";
 const GBP_DFY_PAYMENT_LINK_ID = "plink_1TIDC4CPOLRfuNkhckpsqdyt";
 const GBP_RETAINER_PAYMENT_LINK_ID = "plink_1TIDCDCPOLRfuNkhs92CfgYU";
 
+const MOBILE_NAV_FIX_CSS = `
+@media (max-width: 640px) {
+  .nav-inner,
+  nav .container,
+  .topbar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    gap: 14px !important;
+  }
+
+  .nav-brand,
+  .brand,
+  nav .brand {
+    width: 100% !important;
+  }
+
+  .nav-links,
+  ul.nav-links,
+  nav .nav-links,
+  .topbar-links {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 14px !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px !important;
+    list-style: none !important;
+  }
+
+  .nav-links::-webkit-scrollbar,
+  .topbar-links::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav-links li,
+  .topbar-links a,
+  .nav-links a {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+}
+`;
+
+class MobileNavStyleInjector {
+  element(element) {
+    element.append(`<style>${MOBILE_NAV_FIX_CSS}</style>`, { html: true });
+  }
+}
+
+function withMobileNavFix(response) {
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("text/html")) return response;
+  return new HTMLRewriter().on("head", new MobileNavStyleInjector()).transform(response);
+}
+
 
 // Generate unique thank-you URL token from buyer email
 async function generateThankYouToken(email) {
@@ -402,7 +462,7 @@ export default {
       const newUrl = new URL(request.url);
       newUrl.pathname = url.pathname + ".html";
       const newReq = new Request(newUrl.toString(), { method: request.method, headers: request.headers });
-      return env.ASSETS.fetch(newReq);
+      return withMobileNavFix(await env.ASSETS.fetch(newReq));
     }
 
     // Canonical path redirects
@@ -420,7 +480,7 @@ export default {
       if (url.pathname === "/" || url.pathname === "/index.html") {
         const homeUrl = new URL(request.url);
         homeUrl.pathname = "/jackmini-home.html";
-        return env.ASSETS.fetch(new Request(homeUrl.toString(), { method: request.method, headers: request.headers }));
+        return withMobileNavFix(await env.ASSETS.fetch(new Request(homeUrl.toString(), { method: request.method, headers: request.headers })));
       }
 
       if (url.pathname === "/gbp-audit" || url.pathname === "/gbp-audit.html") {
@@ -440,6 +500,6 @@ export default {
     }
 
     // All other routes → static assets
-    return env.ASSETS.fetch(request);
+    return withMobileNavFix(await env.ASSETS.fetch(request));
   },
 };
