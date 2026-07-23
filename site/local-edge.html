@@ -3,304 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LocalEdge — Google Maps Audit | Jack Mini</title>
-<meta name="description" content="Google Maps audit for local businesses. See exactly why competitors outrank you and get a fix plan delivered in 24 hours. Starting at $299.">
+<title>Local Map Check for Google Maps | Jack Mini</title>
+<meta name="description" content="Local Map Check helps local businesses spot what may be hurting their Google Maps visibility and gives them a clear next step.">
+<link rel="canonical" href="https://jackmini.com/local-edge">
 <style>
-  :root { --cyan: #00e5ff; --purple: #a855f7; --bg: #0a0a0f; --surface: #111118; --border: #1e1e2e; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
-  nav { border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
-  nav a { color: #94a3b8; text-decoration: none; font-size: 14px; }
-  nav .logo { color: var(--cyan); font-weight: 700; font-size: 16px; text-decoration: none; }
-  .container { max-width: 760px; margin: 0 auto; padding: 0 24px; }
-  .badge { display: inline-block; background: rgba(0,229,255,0.1); border: 1px solid rgba(0,229,255,0.3); color: var(--cyan); font-size: 12px; font-weight: 600; letter-spacing: 0.08em; padding: 4px 12px; border-radius: 20px; margin-bottom: 24px; text-transform: uppercase; }
-  h1 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
-  h1 span { color: var(--cyan); }
-  .sub { font-size: 18px; color: #94a3b8; max-width: 580px; margin-bottom: 40px; }
-  .section-title { font-size: 22px; font-weight: 700; margin-bottom: 24px; }
-  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-  .cta-btn { display: inline-block; background: var(--cyan); color: #000; font-weight: 700; font-size: 16px; padding: 16px 32px; border-radius: 8px; text-decoration: none; }
-  .cta-btn:hover { opacity: 0.9; }
-  .cta-btn-outline { display: inline-block; border: 1px solid var(--cyan); color: var(--cyan); font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 8px; text-decoration: none; }
-  .cta-btn-outline:hover { background: rgba(0,229,255,0.08); }
-
-  /* Hero */
-  .hero { padding: 80px 0 60px; }
-  .hero-cta-note { font-size: 13px; color: #475569; margin-top: 12px; }
-
-  /* ROI bar */
-  .roi-bar { background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.2); border-radius: 10px; padding: 18px 24px; margin: 40px 0 0; font-size: 14px; color: #94a3b8; }
-  .roi-bar strong { color: #e2e8f0; }
-
-  /* What's inside */
-  .what-inside { padding: 60px 0; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
-  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
-  .card-num { font-size: 11px; color: var(--purple); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-  .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
-  .card p { font-size: 13px; color: #64748b; line-height: 1.5; }
-  .impact { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin-top: 8px; }
-  .high { background: rgba(0,229,255,0.15); color: var(--cyan); }
-  .medium { background: rgba(168,85,247,0.15); color: var(--purple); }
-
-  /* Proof */
-  .proof { padding: 60px 0; }
-  .proof-box { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--cyan); border-radius: 8px; padding: 20px 24px; margin-bottom: 16px; font-size: 14px; color: #94a3b8; line-height: 1.7; }
-  .proof-box strong { color: #e2e8f0; }
-
-  /* Pricing tiers */
-  .pricing { padding: 60px 0; }
-  .pricing-intro { color: #94a3b8; font-size: 16px; margin-bottom: 40px; max-width: 560px; }
-  .tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; align-items: start; }
-  .tier { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; }
-  .tier.featured { border-color: var(--cyan); box-shadow: 0 0 32px rgba(0,229,255,0.1); }
-  .tier-badge { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; color: #64748b; }
-  .tier.featured .tier-badge { color: var(--cyan); }
-  .tier-name { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
-  .tier-price { font-size: 36px; font-weight: 800; color: var(--cyan); margin: 8px 0 4px; }
-  .tier-price-note { font-size: 12px; color: #64748b; margin-bottom: 16px; }
-  .tier-desc { font-size: 14px; color: #94a3b8; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
-  .tier-features { list-style: none; margin-bottom: 24px; }
-  .tier-features li { font-size: 13px; color: #94a3b8; padding: 6px 0; display: flex; gap: 10px; }
-  .tier-features li::before { content: "✓"; color: var(--cyan); flex-shrink: 0; font-weight: 700; }
-  .tier-cta { display: block; text-align: center; background: var(--cyan); color: #000; font-weight: 700; font-size: 14px; padding: 13px 20px; border-radius: 8px; text-decoration: none; }
-  .tier-cta:hover { opacity: 0.9; }
-  .tier-cta.outline { background: transparent; border: 1px solid var(--border); color: #94a3b8; }
-  .tier-cta.outline:hover { border-color: var(--cyan); color: var(--cyan); background: rgba(0,229,255,0.05); }
-  .recommended-label { display: block; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
-
-  /* FAQ */
-  .faq { padding: 60px 0; }
-  .faq-item { border-bottom: 1px solid var(--border); padding: 20px 0; }
-  .faq-item h4 { font-size: 15px; font-weight: 600; margin-bottom: 8px; }
-  .faq-item p { font-size: 14px; color: #64748b; }
-
-  /* Final CTA */
-  .final-cta { padding: 60px 0 80px; text-align: center; }
-  .final-cta h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; }
-  .final-cta p { color: #64748b; margin-bottom: 24px; }
-</style>
-  <link rel="canonical" href="https://jackmini.com/local-edge" />
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": "LocalEdge - Google Maps Audit",
-    "description": "8-factor competitive audit of your Google Maps listing benchmarked against your top 3 competitors. Delivered in 24 hours.",
-    "url": "https://jackmini.com/local-edge",
-    "provider": { "@type": "Organization", "name": "Jack Mini", "url": "https://jackmini.com" },
-    "offers": [
-      { "@type": "Offer", "name": "Audit", "price": "299", "priceCurrency": "USD" },
-      { "@type": "Offer", "name": "Done-For-You", "price": "799", "priceCurrency": "USD" },
-      { "@type": "Offer", "name": "Local Dominance", "price": "1500", "priceCurrency": "USD" }
-    ]
+  :root {
+    --bg: #0a0a0a;
+    --panel: #131313;
+    --panel-2: #1a1a1a;
+    --border: #262626;
+    --text: #f5f5f5;
+    --muted: #8d8d8d;
+    --cyan: #00d4ff;
+    --cyan-soft: rgba(0, 212, 255, 0.14);
   }
-  </script>
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: radial-gradient(circle at top right, rgba(0, 212, 255, 0.12), transparent 30%), var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(10, 10, 10, 0.9);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 0;
+    gap: 20px;
+  }
+
+  .nav-brand {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .nav-brand span {
+    color: var(--cyan);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 22px;
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .hero {
+    padding: 84px 0 48px;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: var(--cyan-soft);
+    color: var(--cyan);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 22px;
+  }
+
+  h1 {
+    font-size: clamp(38px, 6vw, 66px);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    max-width: 10ch;
+    margin-bottom: 20px;
+  }
+
+  .lead {
+    max-width: 42rem;
+    font-size: 20px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 22px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .btn-primary {
+    background: var(--cyan);
+    color: #081014;
+  }
+
+  .btn-secondary {
+    border: 1px solid var(--border);
+    color: var(--text);
+    background: var(--panel);
+  }
+
+  .hero-note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 26px;
+    padding: 12px 0 72px;
+  }
+
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    padding: 28px;
+  }
+
+  .card h2 {
+    font-size: 24px;
+    margin-bottom: 14px;
+  }
+
+  .card p {
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+
+  .list {
+    display: grid;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .list-item {
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: var(--panel-2);
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .list-item strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .quote {
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+
+  .mini {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0 42px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .nav-inner {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .hero {
+      padding-top: 56px;
+    }
+
+    .lead {
+      font-size: 18px;
+    }
+  }
+</style>
 </head>
 <body>
-
-<nav style="position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,.95); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);"><div style="max-width: 960px; margin: 0 auto; padding: 18px 24px; display: flex; align-items: center; justify-content: space-between;"><a href="/" class="logo" style="font-size: 15px; font-weight: 600; color: #F5F5F5; text-decoration: none;">Jack<span style="color: var(--cyan);">Mini</span></a><div style="display: flex; gap: 32px; list-style: none;"><a href="/#guide" style="font-size: 14px; color: #888888; text-decoration: none;">Guide</a><a href="/starter-kit" style="font-size: 14px; color: #888888; text-decoration: none;">Starter Kit</a><a href="/local-edge" style="font-size: 14px; color: #888888; text-decoration: none;">LocalEdge</a><a href="/blog/" style="font-size: 14px; color: #888888; text-decoration: none;">Blog</a><a href="/dashboard" style="font-size: 14px; color: #888888; text-decoration: none;">Dashboard</a><a href="https://x.com/JackMiniAI" target="_blank" rel="noopener" style="font-size: 14px; color: #888888; text-decoration: none;">@JackMiniAI</a></div></div></nav>
-</nav>
-
-<!-- Hero -->
-<section class="hero">
-  <div class="container">
-    <div class="badge">LocalEdge</div>
-    <h1>Your competitors are winning on Google.<br><span>Now you can see exactly how.</span></h1>
-    <p class="sub">An 8-factor competitive audit of your Google Maps listing — every gap, every missed category, every ranking signal your competitors are using that you're not. Delivered in 24 hours.</p>
-    <a href="https://buy.stripe.com/6oUfZgdN6es0bDLeqddEs02" class="cta-btn">Get My Audit — $299</a>
-    <p class="hero-cta-note">Or scroll down to see all options, including done-for-you.</p>
-
-    <div class="roi-bar">
-      <strong>The math is simple:</strong> One new client from Google Maps is worth hundreds to thousands of dollars. The businesses losing on local search aren't losing on service quality — they're losing on text fields they haven't filled in and categories they don't know exist.
+  <nav>
+    <div class="wrap nav-inner">
+      <a class="nav-brand" href="/">Jack<span>Mini</span></a>
+      <div class="nav-links">
+        <a href="/#guide">Guide</a>
+        <a href="/starter-kit">Starter Kit</a>
+        <a href="https://localmapcheck.com/">Local Map Check</a>
+        <a href="/blog/">Blog</a>
+        <a href="/dashboard">Dashboard</a>
+      </div>
     </div>
-  </div>
-</section>
+  </nav>
 
-<hr class="divider">
-
-<!-- Pricing Tiers -->
-<section class="pricing">
-  <div class="container">
-    <h2 class="section-title">Choose your path</h2>
-    <p class="pricing-intro">Same audit at every level. The difference is who does the work — and whether it stays done.</p>
-
-    <div class="tiers">
-
-      <!-- Tier 1: Audit -->
-      <div class="tier">
-        <div class="tier-badge">Audit</div>
-        <div class="tier-name">See Everything</div>
-        <div class="tier-price">$299</div>
-        <div class="tier-price-note">One-time. PDF in 24 hours.</div>
-        <p class="tier-desc">Full diagnosis. You get the fix list, ready-to-paste copy, and complete competitor breakdown. You implement.</p>
-        <ul class="tier-features">
-          <li>8-factor competitive audit</li>
-          <li>3 competitor deep-dive</li>
-          <li>Prioritized fix list, ranked by impact</li>
-          <li>Ready-to-paste descriptions, categories, posts</li>
-          <li>Review response templates</li>
-          <li>PDF delivered in 24 hours</li>
-        </ul>
-        <a href="https://buy.stripe.com/6oUfZgdN6es0bDLeqddEs02" class="tier-cta">Get the Audit — $299</a>
+  <main class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Service inside Jack Mini</div>
+      <h1>Local Map Check for Google Maps visibility.</h1>
+      <p class="lead">
+        Jack Mini is the parent brand. Local Map Check is the focused service for local businesses that want a clearer read on what may be hurting their Maps visibility.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="https://localmapcheck.com/">Open Local Map Check</a>
+        <a class="btn btn-secondary" href="mailto:alex@localmapcheck.com?subject=Local%20Map%20Check">Email Alex</a>
       </div>
+      <p class="hero-note">If you want the full service page, pricing, and contact flow, use `localmapcheck.com`.</p>
+    </section>
 
-      <!-- Tier 2: Done-For-You (featured) -->
-      <div class="tier featured">
-        <span class="recommended-label">Most popular</span>
-        <div class="tier-badge">Done-For-You</div>
-        <div class="tier-name">We Fix It</div>
-        <div class="tier-price">$799</div>
-        <div class="tier-price-note">One-time. Completed within 48 hours.</div>
-        <p class="tier-desc">We make every change using your Google access. You approve and move on. No learning curve, no time spent.</p>
-        <ul class="tier-features">
-          <li>Everything in the Audit</li>
-          <li>We update categories, attributes, descriptions</li>
-          <li>We publish your first 4 Google Posts</li>
-          <li>Review response templates installed</li>
-          <li>Services section fully optimized</li>
-          <li>Completed in 48 hours, results visible in days</li>
-        </ul>
-        <a href="https://buy.stripe.com/7sY8wOdN6abK23b2HvdEs03" class="tier-cta">Get Done-For-You — $799</a>
-      </div>
-
-      <!-- Tier 3: Local Dominance -->
-      <div class="tier">
-        <div class="tier-badge">Retainer</div>
-        <div class="tier-name">Local Dominance</div>
-        <div class="tier-price">$1,500</div>
-        <div class="tier-price-note">Per month. Cancel anytime.</div>
-        <p class="tier-desc">We run your Google Maps presence every month. You compete, we maintain the edge.</p>
-        <ul class="tier-features">
-          <li>Done-For-You setup included</li>
-          <li>4 Google Posts written and published monthly</li>
-          <li>Review responses written within 24 hours</li>
-          <li>Monthly competitor monitoring</li>
-          <li>Quarterly re-audit as competitors change</li>
-          <li>Monthly performance report</li>
-        </ul>
-        <a href="https://buy.stripe.com/6oU7sKgZi83CdLTa9XdEs04" class="tier-cta">Get Local Dominance — $1,500/mo</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<hr class="divider">
-<!-- What's inside the audit -->
-<section class="what-inside">
-  <div class="container">
-    <h2 class="section-title">What's in every audit</h2>
-    <div class="grid">
+    <section class="grid">
       <div class="card">
-        <div class="card-num">01</div>
-        <h3>Category Audit</h3>
-        <p>Which Google Maps categories your competitors use that you're missing — and which searches you're invisible for right now.</p>
-        <span class="impact high">High impact</span>
+        <h2>What it does</h2>
+        <p>Local Map Check reviews the parts of a Google Business Profile that may be holding a business back, then turns that into a simple next-step plan.</p>
+        <div class="list">
+          <div class="list-item">
+            <strong>See what may be off</strong>
+            Missing categories, weak profile details, or gaps compared with nearby competitors.
+          </div>
+          <div class="list-item">
+            <strong>Focus on the practical fixes</strong>
+            The point is not more theory. The point is clarity on what to check first.
+          </div>
+          <div class="list-item">
+            <strong>Keep the service separate</strong>
+            Jack Mini stays the broader brand. Local Map Check stays the focused offer.
+          </div>
+        </div>
       </div>
-      <div class="card">
-        <div class="card-num">02</div>
-        <h3>Attributes Audit</h3>
-        <p>Every attribute tag your competitors have that you don't. These affect both rankings and how often people click your listing.</p>
-        <span class="impact high">High impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">03</div>
-        <h3>Review Velocity</h3>
-        <p>How fast your competitors are getting reviews vs. you — and the exact phrases to train your customers to use.</p>
-        <span class="impact medium">Medium impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">04</div>
-        <h3>Review Response Templates</h3>
-        <p>12 ready-to-use templates (5-star through 1-star) written in your voice, with your service and city built in.</p>
-        <span class="impact medium">Medium impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">05</div>
-        <h3>Google Posts Calendar</h3>
-        <p>8-week posting plan with full copy for weeks 1-4. Topics built around what's working in your market.</p>
-        <span class="impact medium">Medium impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">06</div>
-        <h3>Services Optimization</h3>
-        <p>Every service your competitors list that you're missing — with ready-to-paste descriptions for each one.</p>
-        <span class="impact high">High impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">07</div>
-        <h3>Business Description (3 versions)</h3>
-        <p>Three optimized descriptions — keyword-focused, conversion-focused, and trust-focused. Under 750 characters each. Ready to paste.</p>
-        <span class="impact high">High impact</span>
-      </div>
-      <div class="card">
-        <div class="card-num">08</div>
-        <h3>Photo Strategy</h3>
-        <p>Your competitors' upload patterns, what types of photos rank well in your category, and an 8-week shot list.</p>
-        <span class="impact medium">Medium impact</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<hr class="divider">
+      <div class="card">
+        <h2>Why it lives here too</h2>
+        <p class="quote">This page exists so people who already know Jack Mini can understand the offer without turning `jackmini.com` into the service homepage.</p>
+        <p>For the actual service page, send traffic to the dedicated domain.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="https://localmapcheck.com/">Go to localmapcheck.com</a>
+        </div>
+        <p class="mini">Short version: Jack Mini owns the offer. Local Map Check sells it.</p>
+      </div>
+    </section>
 
-<!-- Proof -->
-<section class="proof">
-  <div class="container">
-    <h2 class="section-title">What audits find</h2>
-    <div class="proof-box">
-      <strong>The pattern across every audit:</strong> The businesses losing on Google Maps aren't losing because their service is worse. They're losing because of text fields they haven't filled in, categories they didn't know existed, and a review system they never built. Competitors who rank above them are often just 10-15 minutes of profile work ahead. All of it is fixable - once you know exactly what to fix.
-    </div>
-    <div class="proof-box">
-      <strong>Common findings:</strong> Missing secondary categories that competitors use to rank for high-intent searches ("elder law attorney," "emergency dentist," "tax preparation"). Zero Google posts while competitors post weekly. Generic business descriptions with no keywords. Review velocity 3x slower than the top-ranked competitor. Each of these is a ranking signal - and each is fixable without spending a dollar on ads.
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- FAQ -->
-<section class="faq">
-  <div class="container">
-    <h2 class="section-title">Questions</h2>
-    <div class="faq-item">
-      <h4>What do you need from me?</h4>
-      <p>Just your business website URL or Google Maps listing URL at checkout. Nothing else. I do the research.</p>
-    </div>
-    <div class="faq-item">
-      <h4>How long does it take?</h4>
-      <p>The audit PDF is delivered within 24 hours. Done-for-you implementation is completed within 48 hours of providing your Google access.</p>
-    </div>
-    <div class="faq-item">
-      <h4>What kinds of businesses is this for?</h4>
-      <p>Any local service business with a Google Business Profile (Google Maps listing) — law firms, dental practices, medical offices, HVAC, plumbers, accountants, contractors. If you depend on local search to get clients, this is for you.</p>
-    </div>
-    <div class="faq-item">
-      <h4>How does the Done-For-You tier work?</h4>
-      <p>After purchasing, you'll receive a secure link to grant us temporary access to your Google Business Profile. We make all the changes — categories, attributes, descriptions, services, first 4 posts — and send you a summary of everything updated. Access can be revoked anytime after completion.</p>
-    </div>
-    <div class="faq-item">
-      <h4>Is there a guarantee?</h4>
-      <p>If the audit doesn't contain at least 5 specific, actionable findings for your business, I'll refund you in full. No questions asked.</p>
-    </div>
-  </div>
-</section>
-
-<hr class="divider">
-
-<!-- Final CTA -->
-<section class="final-cta">
-  <div class="container">
-    <h2>See exactly where you're losing — and fix it in 24 hours.</h2>
-    <p>Start with the audit. Upgrade to done-for-you after you see the report.</p>
-    <a href="https://buy.stripe.com/6oUfZgdN6es0bDLeqddEs02" class="cta-btn">Get My Audit — $299</a>
-    <div style="font-size: 13px; color: #475569; margin-top: 16px;">Questions? jack@jackmini.com</div>
-  </div>
-</section>
-
+    <footer class="footer">
+      Jack Mini - parent brand. Local Map Check - focused service.
+    </footer>
+  </main>
 </body>
 </html>
