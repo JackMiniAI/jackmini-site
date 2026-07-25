@@ -78,6 +78,43 @@ function withMobileNavFix(response) {
   return new HTMLRewriter().on("head", new MobileNavStyleInjector()).transform(response);
 }
 
+function xmlResponse(body) {
+  return new Response(body, {
+    headers: {
+      "content-type": "application/xml; charset=UTF-8",
+      "cache-control": "public, max-age=3600",
+    },
+  });
+}
+
+function textResponse(body) {
+  return new Response(body, {
+    headers: {
+      "content-type": "text/plain; charset=UTF-8",
+      "cache-control": "public, max-age=3600",
+    },
+  });
+}
+
+function buildLocalMapCheckSitemap() {
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://localmapcheck.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`;
+}
+
+function buildLocalMapCheckRobots() {
+  return `User-agent: *
+Allow: /
+
+Sitemap: https://localmapcheck.com/sitemap.xml
+`;
+}
+
 
 // Generate unique thank-you URL token from buyer email
 async function generateThankYouToken(email) {
@@ -456,6 +493,16 @@ export default {
     }
 
     const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
+
+    if (hostname === "localmapcheck.com") {
+      if (url.pathname === "/robots.txt") {
+        return textResponse(buildLocalMapCheckRobots());
+      }
+
+      if (url.pathname === "/sitemap.xml") {
+        return xmlResponse(buildLocalMapCheckSitemap());
+      }
+    }
 
     // Blog slug routes — serve /blog/{slug} as /blog/{slug}.html
     if (url.pathname.startsWith("/blog/") && !url.pathname.endsWith(".html") && !url.pathname.endsWith("/")) {
