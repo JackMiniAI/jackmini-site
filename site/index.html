@@ -195,6 +195,12 @@
       background: rgba(255, 255, 255, 0.5);
     }
 
+    .btn[disabled] {
+      opacity: 0.7;
+      cursor: wait;
+      transform: none;
+    }
+
     .hero-note {
       font-size: 13px;
       color: var(--muted);
@@ -386,11 +392,74 @@
     }
 
     .final-cta-wrap {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1.1fr);
       gap: 24px;
-      align-items: flex-end;
-      flex-wrap: wrap;
+      align-items: start;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .contact-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .contact-field label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .contact-field input,
+    .contact-field textarea {
+      width: 100%;
+      border: 1px solid rgba(31, 34, 27, 0.12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.82);
+      padding: 14px 16px;
+      font: inherit;
+      color: var(--ink);
+    }
+
+    .contact-field input:focus,
+    .contact-field textarea:focus {
+      outline: 2px solid rgba(219, 92, 46, 0.18);
+      border-color: rgba(219, 92, 46, 0.5);
+    }
+
+    .contact-field textarea {
+      min-height: 116px;
+      resize: vertical;
+    }
+
+    .contact-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .form-note,
+    .form-status {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .form-status[data-state="success"] {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .form-status[data-state="error"] {
+      color: var(--accent-dark);
+      font-weight: 700;
     }
 
     .footer {
@@ -406,7 +475,8 @@
     @media (max-width: 920px) {
       .hero,
       .stack,
-      .section-grid {
+      .section-grid,
+      .final-cta-wrap {
         grid-template-columns: 1fr;
       }
 
@@ -463,6 +533,10 @@
       .metric-grid {
         grid-template-columns: 1fr;
       }
+
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -492,10 +566,10 @@
           Then we turn that into a plain-English action plan you can actually use.
         </p>
         <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:alex@localmapcheck.com?subject=Local%20Map%20Check">Get in touch</a>
+          <a class="btn btn-primary" href="#contact">Get 2 real findings</a>
           <a class="btn btn-secondary" href="#what-we-check">See what we check</a>
         </div>
-        <p class="hero-note">Based in NYC. Built for local businesses that want more map visibility without guesswork.</p>
+        <p class="hero-note">Tell us the business name, city, and website. We’ll send 2 real findings back.</p>
       </div>
 
       <div class="hero-card" aria-label="sample review summary">
@@ -589,14 +663,47 @@
     <section class="final-cta" id="contact">
       <div class="final-cta-wrap">
         <div>
-          <h2>Want us to take a look?</h2>
+          <h2>Get 2 real findings first.</h2>
           <p>
-            Send over your business name, city, and website. We will start from there.
+            Drop in the basics and we’ll start with a quick read on what may be hurting your Google Maps visibility.
+          </p>
+          <p>
+            If the fit looks real, the paid audit comes after that. Not before.
           </p>
         </div>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:alex@localmapcheck.com?subject=Check%20my%20Google%20Maps%20visibility">alex@localmapcheck.com</a>
-        </div>
+        <form class="contact-form" id="localmapcheck-lead-form">
+          <div class="contact-grid">
+            <div class="contact-field">
+              <label for="lead-name">Your name</label>
+              <input id="lead-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="contact-field">
+              <label for="lead-email">Your email</label>
+              <input id="lead-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="contact-field">
+              <label for="lead-business">Business name</label>
+              <input id="lead-business" name="businessName" type="text" autocomplete="organization" required />
+            </div>
+            <div class="contact-field">
+              <label for="lead-city">City</label>
+              <input id="lead-city" name="city" type="text" autocomplete="address-level2" required />
+            </div>
+            <div class="contact-field full">
+              <label for="lead-website">Website</label>
+              <input id="lead-website" name="website" type="url" inputmode="url" placeholder="https://example.com" required />
+            </div>
+            <div class="contact-field full">
+              <label for="lead-notes">Anything specific you want checked? Optional.</label>
+              <textarea id="lead-notes" name="notes" placeholder="Service pages, reviews, categories, rankings, competitor names, whatever feels relevant."></textarea>
+            </div>
+          </div>
+          <div class="cta-row">
+            <button class="btn btn-primary" type="submit">Send me 2 findings</button>
+          </div>
+          <p class="form-note">No generic SEO report. No call required. Just a fast first read.</p>
+          <p class="form-status" id="lead-form-status" aria-live="polite"></p>
+        </form>
       </div>
     </section>
 
@@ -605,5 +712,53 @@
       <span>Google Maps visibility review for local businesses</span>
     </footer>
   </main>
+  <script>
+    const leadForm = document.getElementById("localmapcheck-lead-form");
+    const leadStatus = document.getElementById("lead-form-status");
+
+    if (leadForm && leadStatus) {
+      leadForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const submitButton = leadForm.querySelector('button[type="submit"]');
+        const payload = Object.fromEntries(new FormData(leadForm).entries());
+
+        leadStatus.textContent = "";
+        leadStatus.dataset.state = "";
+
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
+
+        try {
+          const response = await fetch("/api/localmapcheck-lead", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(data.error || "Something went wrong.");
+          }
+
+          leadForm.reset();
+          leadStatus.dataset.state = "success";
+          leadStatus.textContent = "Got it. We’ll review the listing and send 2 findings back.";
+        } catch (error) {
+          leadStatus.dataset.state = "error";
+          leadStatus.textContent = error.message || "Something went wrong. Email alex@localmapcheck.com instead.";
+        } finally {
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = "Send me 2 findings";
+          }
+        }
+      });
+    }
+  </script>
 </body>
 </html>

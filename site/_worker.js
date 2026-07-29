@@ -492,6 +492,79 @@ export default {
       return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
     }
 
+    // ── /api/localmapcheck-lead — Local Map Check proof-first lead form ──
+    if (url.pathname === "/api/localmapcheck-lead" && request.method === "POST") {
+      if (!env.RESEND_API_KEY) return Response.json({ error: "Not configured" }, { status: 500 });
+      let data;
+      try { data = await request.json(); } catch { return Response.json({ error: "Bad JSON" }, { status: 400 }); }
+
+      const {
+        name = "",
+        email = "",
+        businessName = "",
+        city = "",
+        website = "",
+        notes = "",
+      } = data || {};
+
+      const cleaned = {
+        name: String(name).trim(),
+        email: String(email).trim(),
+        businessName: String(businessName).trim(),
+        city: String(city).trim(),
+        website: String(website).trim(),
+        notes: String(notes).trim(),
+      };
+
+      if (!cleaned.name || !cleaned.email || !cleaned.businessName || !cleaned.city || !cleaned.website) {
+        return Response.json({ error: "Missing fields" }, { status: 400 });
+      }
+
+      if (!cleaned.email.includes("@")) {
+        return Response.json({ error: "Invalid email" }, { status: 400 });
+      }
+
+      let parsedWebsite;
+      try {
+        parsedWebsite = new URL(cleaned.website.startsWith("http") ? cleaned.website : `https://${cleaned.website}`);
+      } catch {
+        return Response.json({ error: "Invalid website" }, { status: 400 });
+      }
+      cleaned.website = parsedWebsite.toString();
+
+      const html = `<p><b>Name:</b> ${cleaned.name}</p>
+<p><b>Email:</b> ${cleaned.email}</p>
+<p><b>Business:</b> ${cleaned.businessName}</p>
+<p><b>City:</b> ${cleaned.city}</p>
+<p><b>Website:</b> <a href="${cleaned.website}">${cleaned.website}</a></p>
+<p><b>Notes:</b> ${cleaned.notes || "None"}</p>`;
+
+      const notifyRes = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: "Jack Mini <jack@jackmini.com>",
+          to: "alex@localmapcheck.com",
+          subject: `Local Map Check lead - ${cleaned.businessName}`,
+          html,
+        })
+      });
+
+      if (!notifyRes.ok) {
+        const err = await notifyRes.text();
+        console.error("Local Map Check lead notify error:", err);
+        return Response.json({ error: "Lead capture failed" }, { status: 500 });
+      }
+
+      return Response.json({ ok: true }, {
+        headers: { "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
+    if (url.pathname === "/api/localmapcheck-lead" && request.method === "OPTIONS") {
+      return new Response(null, { headers: { "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Methods": "POST", "Access-Control-Allow-Headers": "Content-Type" } });
+    }
+
     const hostname = url.hostname.toLowerCase().replace(/^www\./, "");
 
     if (hostname === "localmapcheck.com") {
