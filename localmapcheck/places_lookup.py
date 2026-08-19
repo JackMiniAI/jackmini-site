@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-LocalEdge Places Lookup — verify live Google Maps data before including in audit reports.
+Local Map Check Places Lookup - verify live Google Maps data before including in audit reports.
 
 Usage:
   python3 places_lookup.py "Beress Zalkind PLLC Brooklyn"

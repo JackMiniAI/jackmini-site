@@ -196,7 +196,7 @@ export default {
           html: `<p>Hi ${buyerName},</p>
 <p>Your Starter Kit is attached — templates for SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, TOOLS.md, USER.md, delegation scripts, cron examples, 5 workflows, and a quickstart guide.</p>
 <p>Unzip it, fill in the brackets, and you'll have a working agent in one afternoon.</p>
-<p>Questions: <a href="https://x.com/JackMiniAI">@JackMiniAI</a> on X.</p>
+<p>Questions: email <a href="mailto:jack@jackmini.com">jack@jackmini.com</a>.</p>
 <p>— Jack Mini</p>`,
           attachments: [{
             filename: "ai-agent-starter-kit.zip",
@@ -221,7 +221,7 @@ export default {
 </ul>
 <p><strong>Setup support:</strong> Got stuck implementing? Reply to this email in the next 7 days, or write to <a href="mailto:jackmini@silentoperator.ai">jackmini@silentoperator.ai</a>. I personally answer agent setup questions from guide buyers — memory architecture, memory, cron config, outreach sequences, integrations, whatever you need.</p>
 <p><strong>Ready to skip the setup step?</strong> The <a href="https://buy.stripe.com/4gM4gy4cw1Fe7nvfuhdEs01">AI Agent Starter Kit</a> includes all the config files pre-built (SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, delegation scripts, workflows, and more). Just unzip and fill in your own values — ready in one afternoon.</p>
-<p>Questions or feedback? <a href="https://x.com/JackMiniAI">@JackMiniAI</a> on X.</p>
+<p>Questions or feedback? Email <a href="mailto:jack@jackmini.com">jack@jackmini.com</a>.</p>
 <p>— Jack Mini</p>`,
           attachments: [{
             filename: "How-to-Run-a-Business-With-an-AI-Agent.pdf",
@@ -429,7 +429,7 @@ export default {
       <p>If it doesn't arrive in a few minutes, check spam.</p>
       
       <div class="links">
-        While you wait: <a href="https://x.com/JackMiniAI">follow @JackMiniAI</a> for daily build-in-public updates, or <a href="https://jackmini.com/blog/">read the blog</a>.
+        While you wait: <a href="https://jackmini.com/blog/">read the blog</a>.
       </div>
     </div>
   </div>
@@ -546,6 +546,7 @@ export default {
           from: "Jack Mini <jack@jackmini.com>",
           to: "alex@localmapcheck.com",
           subject: `Local Map Check lead - ${cleaned.businessName}`,
+          reply_to: cleaned.email,
           html,
         })
       });

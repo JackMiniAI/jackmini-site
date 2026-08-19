@@ -1,36 +1,97 @@
-# Cold Email Templates — Approved Structure (April 2026)
+# LocalEdge Electronic Outreach Templates (June 2026)
 
-## Approved Template (use this)
+## Strategy shift
 
-**Subject:** [Business Name] - 2 quick wins on Google Maps
+Do not lead with the paid audit in the first cold touch.
+
+Lead with proof, ask for a tiny reply, and keep the ask low-friction:
+- first touch = one useful observation + permission-style CTA
+- second touch = restate the gap and offer the 2 findings again
+- third touch = close the loop cleanly
+- use the paid audit page only after engagement, or in the later follow-up
+
+Keep all outreach electronic only:
+- email first
+- contact form variant if no email exists
+- no phone, no meeting ask, no calendar link
+
+## Touch 1 - cold email
+
+**Subject options:**
+- [Business Name] - quick Google Maps note
+- [Business Name] - quick local search question
 
 **Body:**
 
 Hi,
 
-Looked at your Google Maps listing. Two things your competitors are doing that you're not:
+I took a quick look at your Google Maps listing and one thing jumped out.
 
-1. [FINDING_1 - plain English, specific to their listing]
-2. [FINDING_2 - plain English, specific to their listing]
+[FINDING_1 - plain English, framed as what a customer might not quickly understand]
 
-Fix both and you pick up searches you're currently invisible for.
+That can cost calls from people already looking for a [vertical singular] like yours.
 
-My partner Alex Mikaloff and I audit Google Maps listings for [vertical] - 8 ranking factors, benchmarked against your top 3 competitors, prioritized fix list. $299 at jackmini.com/local-edge.
+If you want, reply `audit` and I’ll send the 2 biggest Google Maps fixes I see for [Business Name] in plain English.
 
 Jack Mini
-jack@jackmini.com
 
----
+## Touch 2 - follow-up email
+
+**Subject:** Re: [Business Name] - quick Google Maps note
+
+**Body:**
+
+Hi,
+
+Following up in case this got buried.
+
+I also noticed [FINDING_2 - plain English, framed as the gap between their site and their Google Maps listing].
+
+If useful, reply `audit` and I’ll send the 2 biggest fixes I’d start with.
+
+If not relevant, no problem.
+
+Jack Mini
+
+## Touch 3 - final bump
+
+**Subject:** Re: [Business Name] - quick Google Maps note
+
+**Body:**
+
+Hi,
+
+Last note from me on this.
+
+I checked [Business Name] because businesses in your category often lose easy calls on Google Maps without realizing it.
+
+If you want the 2 fixes, reply `audit` and I’ll send them over.
+
+Jack Mini
+
+## Contact form variant
+
+Use when no usable email is visible but a contact form exists.
+
+**Subject/title:** Quick Google Maps note
+
+**Message:**
+
+I took a quick look at your Google Maps listing and noticed one thing that could be costing calls. If useful, reply `audit` and I’ll send the 2 biggest fixes I see in plain English. - Jack Mini
 
 ## Rules
 
-- Open with THEM, not us - first line is about their listing, not who we are
-- Subject includes the business name - increases open rates
-- Findings are specific and plain English - no acronyms ("Google listing" not "GBP", "Google Maps category" not "secondary category")
-- Impact is one sentence - what they gain, not what they're doing wrong
-- Credential lands after the value, not before
-- Signature: "Jack Mini / jack@jackmini.com"
-- Under 120 words total
+- Do not pitch the $299 audit in the first line of a cold message
+- Do not ask for a call, meeting, or calendar booking
+- Do not include more than one CTA
+- CTA is always a tiny reply: `audit`
+- Keep each touch under 90 words when possible
+- Keep it plain-English and conversational
+- First finding should read like a customer-side confusion or missed intent signal
+- Second finding should read like a mismatch between their site and Google Maps listing
+- No acronyms, no numbered lists, no jargon
+- Signature should be `Jack Mini` only
+- Mention `jackmini.com/local-edge` only after interest, or in the second touch when it fits naturally
 
 ## Findings language (plain English)
 - Instead of "GBP category" → "category on your Google listing" or "Google Maps category"
@@ -43,19 +104,26 @@ jack@jackmini.com
 ## Vertical-specific finding examples
 
 ### Law firms
-- No Google posts (almost no firms post - signal of inactivity to Google)
-- Missing practice area categories: Probate Attorney, Elder Law, Real Estate Attorney, Immigration Attorney
-- Missing attributes: Free consultation, Online appointments, Russian-speaking/Spanish-speaking staff
-- Low review count vs top-ranking competitors
+- Someone looking for [practice area] might not quickly understand you do that work
+- Your website makes [practice area / language access / niche strength] clearer than your Google Maps page does
+- If someone only sees the Google listing, they may not get the full picture
+- That can cost you calls from people already looking for a law firm like yours
 
 ### Dentists
-- Missing categories: Cosmetic Dentist, Dental Implants, Emergency Dentist, Teeth Whitening, Orthodontist
-- Language attributes: Russian-speaking, Spanish-speaking (high value in NYC)
-- Very few photos despite multiple treatment rooms
-- Low review velocity vs nearby competitors
+- Someone looking for [service] might not quickly understand you offer it
+- Your website does a better job showing [implants / cosmetic / emergency / language access] than your Google Maps page does
+- If someone only sees the Google listing, they may miss what makes the practice different
+- That can cost you calls from people already looking for a dentist like yours
 
 ### CPAs / Accounting firms
-- Missing categories: Tax Preparation Service, Bookkeeper, Financial Planner, Payroll Service
-- Zero Google posts (huge first-mover advantage - almost no CPAs post)
-- Generic description with no keywords
-- Missing attributes: Free consultation, Online appointments
+- Someone looking for help with [tax prep / bookkeeping / payroll / advisory] might not quickly understand you do that work
+- Your website gives a better picture of your [industry focus / niche / services] than your Google Maps page does
+- If someone only sees the Google listing, they may not get the full picture
+- That can cost you calls from people already looking for an accounting firm like yours
+
+## When a prospect replies
+
+Once a prospect replies `audit` or shows interest:
+- send the 2 findings in plain English
+- then include `jackmini.com/local-edge`
+- position the paid audit as the fast version of the full fix list, not the first thing they need to agree to

@@ -1,4 +1,4 @@
-# LocalEdge Audit Methodology — Data Quality Rules
+# Local Map Check Audit Methodology - Data Quality Rules
 
 ## The Problem This Document Solves
 A previous audit reported "~219 Google reviews" for a firm that actually had 339. The tilde (~) indicated an estimate. That's not acceptable in a $299 paid report — clients will check and lose trust immediately.
@@ -36,7 +36,7 @@ Record the Google Maps URL in the report.
 
 **With Places API key** (`~/.config/google-places-api-key.txt` exists):
 ```bash
-python3 /Users/jackmini/projects/jackmini/localedge/places_lookup.py "Business Name City State"
+python3 /Users/jackmini/projects/jackmini/localmapcheck/places_lookup.py "Business Name City State"
 ```
 Use the returned `review_count` and `rating` as [CONFIRMED] data.
 
