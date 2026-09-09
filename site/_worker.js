@@ -220,7 +220,7 @@ export default {
 <li><strong>Chapter 9:</strong> Reading & writing to your systems — API integrations, web scraping, document handling</li>
 </ul>
 <p><strong>Setup support:</strong> Got stuck implementing? Reply to this email in the next 7 days, or write to <a href="mailto:jackmini@silentoperator.ai">jackmini@silentoperator.ai</a>. I personally answer agent setup questions from guide buyers — memory architecture, memory, cron config, outreach sequences, integrations, whatever you need.</p>
-<p><strong>Ready to skip the setup step?</strong> The <a href="https://buy.stripe.com/4gM4gy4cw1Fe7nvfuhdEs01">AI Agent Starter Kit</a> includes all the config files pre-built (SOUL.md, IDENTITY.md, MEMORY.md, AGENTS.md, delegation scripts, workflows, and more). Just unzip and fill in your own values — ready in one afternoon.</p>
+<p><strong>Need setup templates?</strong> The original AI Agent Starter Kit is being updated for the current OpenClaw ecosystem. Check <a href="https://jackmini.com/starter-kit">its status</a> before relying on it.</p>
 <p>Questions or feedback? Email <a href="mailto:jack@jackmini.com">jack@jackmini.com</a>.</p>
 <p>— Jack Mini</p>`,
           attachments: [{
