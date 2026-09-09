@@ -607,6 +607,12 @@ export default {
       if (url.pathname === "/gbp-audit" || url.pathname === "/gbp-audit.html") {
         return Response.redirect("https://jackmini.com/local-edge", 301);
       }
+
+      if (url.pathname === "/agency-revenue-ops") {
+        const offerUrl = new URL(request.url);
+        offerUrl.pathname = "/agency-revenue-ops.html";
+        return withMobileNavFix(await env.ASSETS.fetch(new Request(offerUrl.toString(), { method: request.method, headers: request.headers })));
+      }
     }
 
     if (hostname === "localmapcheck.com") {
