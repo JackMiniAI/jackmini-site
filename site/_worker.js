@@ -455,6 +455,7 @@ export default {
 
     // ── /api/guide-request — guide giveaway form submission ──────────
     if (url.pathname === "/api/guide-request" && request.method === "POST") {
+      return Response.json({ error: "The guide is being updated and is not currently available." }, { status: 410 });
       if (!env.RESEND_API_KEY) return Response.json({ error: "Not configured" }, { status: 500 });
       let data;
       try { data = await request.json(); } catch { return Response.json({ error: "Bad JSON" }, { status: 400 }); }
