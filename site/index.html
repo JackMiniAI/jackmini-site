@@ -750,7 +750,7 @@
           leadStatus.textContent = "Got it. We’ll review the listing and send 2 findings back.";
         } catch (error) {
           leadStatus.dataset.state = "error";
-          leadStatus.textContent = error.message || "Something went wrong. Email alex@localmapcheck.com instead.";
+          leadStatus.textContent = error.message || "Something went wrong. Please try again later.";
         } finally {
           if (submitButton) {
             submitButton.disabled = false;
